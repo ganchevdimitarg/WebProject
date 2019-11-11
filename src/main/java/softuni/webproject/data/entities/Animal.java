@@ -24,7 +24,6 @@ public class Animal extends BaseEntity{
     @NotNull
     private Integer age;
     private String disease;
-//    TODO
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private Owner owner;

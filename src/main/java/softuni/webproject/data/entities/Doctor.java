@@ -30,7 +30,6 @@ public class Doctor extends BaseEntity {
     @Column(nullable = false)
     @NotNull
     private String description;
-//    TODO
     @OneToMany(mappedBy = "doctor")
     private List<Animal> animals;
 }

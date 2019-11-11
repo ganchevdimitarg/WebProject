@@ -31,7 +31,6 @@ public class Owner extends BaseEntity {
     @Column(name = "phone_number",nullable = false)
     @NotNull
     private String phoneNumber;
-//    TODO
     @OneToMany(mappedBy = "owner")
     private List<Animal> animals;
 
