@@ -15,5 +15,15 @@
 
         <link rel="stylesheet" th:href="@{/css/style-home.css}">
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <script src="js/main.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#hiding").click(function(){
+                    $("#hide").hide();
+                    $("#showing").show();
+                });
+            });
+        </script>
     </head>
 </th:block>

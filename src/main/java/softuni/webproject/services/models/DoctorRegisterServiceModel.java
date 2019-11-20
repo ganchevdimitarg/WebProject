@@ -7,10 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class DoctorServiceModel {
-    private String username;
-    private String password;
-    private String confirmPassword;
+public class DoctorRegisterServiceModel extends BaseServiceModel {
     private String name;
     private String specialization;
     private String description;

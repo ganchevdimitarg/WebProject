@@ -1,7 +1,7 @@
 package softuni.webproject.services.services;
 
-import softuni.webproject.services.models.DoctorServiceModel;
+import softuni.webproject.services.models.BaseServiceModel;
 
 public interface AuthValidationService {
-    boolean isValid(DoctorServiceModel model);
+    boolean isValid(BaseServiceModel model);
 }

@@ -30,8 +30,8 @@ public class Animal extends BaseEntity{
     private Integer age;
     private String disease;
     @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private Owner owner;
+    @JoinColumn(name = "user_id")
+    private User user;
     @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;

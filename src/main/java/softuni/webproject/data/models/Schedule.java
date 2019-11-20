@@ -22,8 +22,8 @@ public class Schedule extends BaseEntity {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id")
-    private Owner owner;
+    @JoinColumn(name = "user_id")
+    private User user;
     @Column(nullable = false)
     @NotNull
     @NotEmpty

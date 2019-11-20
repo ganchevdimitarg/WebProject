@@ -1,30 +1,30 @@
 package softuni.webproject.services.services.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import softuni.webproject.data.repositories.DoctorRepository;
-import softuni.webproject.services.models.DoctorServiceModel;
+import softuni.webproject.data.repositories.UserRepository;
+import softuni.webproject.services.models.BaseServiceModel;
 import softuni.webproject.services.services.AuthValidationService;
 
 @Service
 public class AuthValidationServiceImpl implements AuthValidationService {
-
     private final DoctorRepository doctorRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    public AuthValidationServiceImpl(DoctorRepository doctorRepository) {
+    public AuthValidationServiceImpl(DoctorRepository doctorRepository, UserRepository userRepository) {
         this.doctorRepository = doctorRepository;
+        this.userRepository = userRepository;
     }
 
-
     @Override
-    public boolean isValid(DoctorServiceModel model) {
+    public boolean isValid(BaseServiceModel model) {
         return this.isPasswordValid(model.getPassword(), model.getConfirmPassword()) &&
                 this.isUsernameFree(model.getUsername());
     }
 
+    //TODO
     private boolean isUsernameFree(String username) {
-        return doctorRepository.findByUsername(username);
+        return !doctorRepository.existsDoctorByUsername(username) || !userRepository.existsUserByUsername(username);
     }
 
     private boolean isPasswordValid(String password, String confirmPassword) {

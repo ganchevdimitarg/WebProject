@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Owner extends BaseEntity {
+public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
     @NotNull
     @NotEmpty
@@ -23,14 +23,14 @@ public class Owner extends BaseEntity {
     @NotNull
     @NotEmpty
     private String password;
-    @Column(nullable = false, unique = true)
-    @NotNull
-    @NotEmpty
-    private String email;
     @Column(nullable = false)
     @NotNull
     @NotEmpty
     private String name;
+    @Column(nullable = false, unique = true)
+    @NotNull
+    @NotEmpty
+    private String email;
     @Column(nullable = false)
     @NotNull
     @NotEmpty
@@ -39,8 +39,8 @@ public class Owner extends BaseEntity {
     @NotNull
     @NotEmpty
     private String phoneNumber;
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "user")
     private List<Animal> animals;
-    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Schedule schedule;
 }
