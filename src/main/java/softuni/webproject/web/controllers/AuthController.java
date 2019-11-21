@@ -3,6 +3,7 @@ package softuni.webproject.web.controllers;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import softuni.webproject.web.models.DoctorRegisterControllerModel;
 import softuni.webproject.web.models.UserRegisterControllerModel;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 public class AuthController {
@@ -46,17 +48,32 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/sign-up-patient")
+    //User
+    @ModelAttribute("registerUser")
+    public UserRegisterControllerModel registerUser(){
+        return new UserRegisterControllerModel();
+    }
+
+    @GetMapping("/sign-up-user")
     public String getSignUpPatient() {
         return "auth/sign-up-user.html";
     }
 
-    @PostMapping("/sign-up-patient")
-    public String registerPatient(@ModelAttribute UserRegisterControllerModel user) {
+    @PostMapping("/sign-up-user")
+    public String registerPatient(@Valid @ModelAttribute("registerUser") UserRegisterControllerModel user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "auth/sign-up-user";
+        }
         UserRegisterServiceModel userModel = this.modelMapper.map(user, UserRegisterServiceModel.class);
         auth.registerUser(userModel);
 
         return "redirect:/sign-in";
+    }
+
+    //Doctor
+    @ModelAttribute("registerDoctor")
+    public DoctorRegisterControllerModel registerDoctor(){
+        return new DoctorRegisterControllerModel();
     }
 
     @GetMapping("/sign-up-doctor")
@@ -65,7 +82,10 @@ public class AuthController {
     }
 
     @PostMapping("/sign-up-doctor")
-    public String registerDoctor(@ModelAttribute DoctorRegisterControllerModel model) {
+    public String registerDoctor(@Valid @ModelAttribute("registerDoctor") DoctorRegisterControllerModel model, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "auth/sign-up-doctor";
+        }
         DoctorRegisterServiceModel doctorModel = this.modelMapper.map(model, DoctorRegisterServiceModel.class);
         auth.registerDoctor(doctorModel);
 
