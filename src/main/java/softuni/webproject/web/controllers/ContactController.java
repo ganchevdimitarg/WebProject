@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ContactController {
 
-    @GetMapping("/contact")
+    @GetMapping("/contact/contact")
     public String getContact(){
-        return "contact";
+        return "contact/contact";
     }
 }

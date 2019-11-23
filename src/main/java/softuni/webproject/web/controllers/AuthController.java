@@ -12,6 +12,7 @@ import softuni.webproject.services.models.DoctorRegisterServiceModel;
 import softuni.webproject.services.models.LogInServiceModel;
 import softuni.webproject.services.models.UserRegisterServiceModel;
 import softuni.webproject.services.services.AuthService;
+import softuni.webproject.services.services.LogInIdentificationKeyService;
 import softuni.webproject.web.models.BaseControllerModel;
 import softuni.webproject.web.models.DoctorRegisterControllerModel;
 import softuni.webproject.web.models.UserRegisterControllerModel;
@@ -22,11 +23,13 @@ import javax.validation.Valid;
 @Controller
 public class AuthController {
     private final AuthService auth;
+    private final LogInIdentificationKeyService logInIdentificationKeyService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public AuthController(AuthService auth, ModelMapper modelMapper) {
+    public AuthController(AuthService auth, LogInIdentificationKeyService logInIdentificationKeyService, ModelMapper modelMapper) {
         this.auth = auth;
+        this.logInIdentificationKeyService = logInIdentificationKeyService;
         this.modelMapper = modelMapper;
     }
 
@@ -78,6 +81,7 @@ public class AuthController {
 
     @GetMapping("/sign-up-doctor")
     public String getSignUpDoctor() {
+        logInIdentificationKeyService.generateKey();
         return "auth/sign-up-doctor.html";
     }
 

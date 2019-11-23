@@ -11,4 +11,5 @@ public class BaseServiceModel {
     private String username;
     private String password;
     private String confirmPassword;
+    private String logInKey;
 }

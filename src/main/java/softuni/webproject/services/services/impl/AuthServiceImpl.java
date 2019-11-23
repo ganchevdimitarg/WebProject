@@ -1,10 +1,13 @@
 package softuni.webproject.services.services.impl;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import softuni.webproject.data.models.Doctor;
+import softuni.webproject.data.models.LogInIdentificationKey;
 import softuni.webproject.data.models.User;
 import softuni.webproject.data.repositories.DoctorRepository;
+import softuni.webproject.data.repositories.LogInIdentificationKeyRepository;
 import softuni.webproject.data.repositories.UserRepository;
 import softuni.webproject.services.models.BaseServiceModel;
 import softuni.webproject.services.models.DoctorRegisterServiceModel;
@@ -19,18 +22,20 @@ public class AuthServiceImpl implements AuthService {
     private final AuthValidationService validation;
     private final DoctorRepository doctorRepository;
     private final UserRepository userRepository;
+    private final LogInIdentificationKeyRepository keyRepository;
     private final ModelMapper modelMapper;
     private final HashingService hashingService;
 
-
+    @Autowired
     public AuthServiceImpl(AuthValidationService validation,
                            DoctorRepository doctorRepository,
                            UserRepository userRepository,
-                           ModelMapper modelMapper,
+                           LogInIdentificationKeyRepository keyRepository, ModelMapper modelMapper,
                            HashingService hashingService) {
         this.validation = validation;
         this.doctorRepository = doctorRepository;
         this.userRepository = userRepository;
+        this.keyRepository = keyRepository;
         this.modelMapper = modelMapper;
         this.hashingService = hashingService;
     }
@@ -40,9 +45,15 @@ public class AuthServiceImpl implements AuthService {
         if (!validation.isValid(model)) {
             return;
         }
-        Doctor doctor = this.modelMapper.map(model, Doctor.class);
-        doctor.setPassword(hashingService.hash(doctor.getPassword()));
-        doctorRepository.save(doctor);
+        LogInIdentificationKey key = keyRepository.findByLogKey(model.getLogInKey());
+        if (key != null) {
+            Doctor doctor = modelMapper.map(model, Doctor.class);
+            doctor.setPassword(hashingService.hash(doctor.getPassword()));
+            doctor.setLogInKey(key);
+            doctorRepository.save(doctor);
+            key.setFree(false);
+            keyRepository.save(key);
+        }
     }
 
     @Override
@@ -50,8 +61,7 @@ public class AuthServiceImpl implements AuthService {
         if (!validation.isValid(model)) {
             return;
         }
-
-        User user = this.modelMapper.map(model, User.class);
+        User user = modelMapper.map(model, User.class);
         user.setPassword(hashingService.hash(user.getPassword()));
         userRepository.save(user);
     }
@@ -59,14 +69,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LogInServiceModel logIn(BaseServiceModel model) {
         String pass = hashingService.hash(model.getPassword());
-        Doctor doctor = doctorRepository.findByUsernameAndPassword(model.getUsername(), pass);
-        if (doctor == null) {
-            User user = userRepository.findByUsernameAndPassword(model.getUsername(), pass);
-            return new LogInServiceModel(user.getName());
+        User user = userRepository.findByUsernameAndPassword(model.getUsername(), pass);
+        if (keyRepository.findByLogKey(model.getLogInKey()) != null) {
+            Doctor doctor = doctorRepository.findByUsernameAndPassword(model.getUsername(), pass);
+            return new LogInServiceModel(doctor.getName());
         }
-        return new LogInServiceModel(doctor.getName());
+        return new LogInServiceModel(user.getName());
     }
-
 
 
 }

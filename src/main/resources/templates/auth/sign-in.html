@@ -17,7 +17,8 @@
 
                 <div class="signin-form">
                     <h2 class="form-title">Sign in</h2>
-                    <form th:method="post" th:action="@{/sign-in}" class="register-form" id="login-form" name="login-form">
+                    <form th:method="post" th:action="@{/sign-in}" class="register-form" id="login-form"
+                          name="login-form">
                         <div class="form-group">
                             <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
                             <input type="text" name="username" id="username" placeholder="Your Name"/>
@@ -30,6 +31,15 @@
                             <input type="checkbox" name="remember-me" id="remember-me" class="agree-term"/>
                             <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember
                                 me</label>
+                        </div>
+                        <div class="radio">
+                            User:<input type="radio" class="radio-button" name="user" value="user"/>
+                            Doctor:<input type="radio" class="radio-button" name="user" value="doctor"/>
+                        </div>
+
+                        <div class="form-group" id="hide-input">
+                            <label for="logInKey"><i class="zmdi zmdi-archive"></i></label>
+                            <input type="password" name="logInKey" id="logInKey" placeholder="Your LogIn Key"/>
                         </div>
                         <div class="form-group form-button">
                             <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>

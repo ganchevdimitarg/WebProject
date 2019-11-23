@@ -1,5 +1,6 @@
 // Wait for the DOM to be ready
-$(document).ready(function(){
+//TODO
+$(function() {
     // Initialize form validation on the registration form.
     // It has the name attribute "registration"
     $("form[name='login-form']").validate({

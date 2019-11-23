@@ -6,6 +6,7 @@ import softuni.webproject.data.models.Doctor;
 
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, String> {
+
     boolean existsDoctorByUsername(String username);
 
     Doctor findByUsernameAndPassword(String username, String password);
