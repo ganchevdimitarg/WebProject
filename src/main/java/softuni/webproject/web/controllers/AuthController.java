@@ -4,9 +4,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+import softuni.webproject.errors.LogInHandleException;
 import softuni.webproject.services.models.BaseServiceModel;
 import softuni.webproject.services.models.DoctorRegisterServiceModel;
 import softuni.webproject.services.models.LogInServiceModel;
@@ -43,12 +46,22 @@ public class AuthController {
         BaseServiceModel user = this.modelMapper.map(model, BaseServiceModel.class);
         try {
             LogInServiceModel login = auth.logIn(user);
-            session.setAttribute("user", login);
-            return "redirect:/home";
-//            return "/home-user";
+            session.setAttribute("userName", login);
+            if (model.getLogInKey().isEmpty()){
+                return "redirect:/user/user-home";
+            }
+            return "redirect:/doctor/doctor-home";
         }catch (Exception e){
             return "redirect:/sign-in";
         }
+    }
+
+    @ExceptionHandler(LogInHandleException.class)
+    public ModelAndView handleException(LogInHandleException ex){
+        ModelAndView modelAndView = new ModelAndView("error");
+        modelAndView.addObject("massage", ex.getMessage());
+
+        return modelAndView;
     }
 
     //User

@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -20,31 +19,25 @@ import static softuni.webproject.config.Constant.*;
 @NoArgsConstructor
 public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
-    @NotNull
     @NotEmpty
     @Size(min = 3, max = 20, message = INVALID_TEXT_LENGTH_MASSAGE)
     private String username;
     @Column(nullable = false, unique = true)
-    @NotNull
     @NotEmpty
     @Pattern(regexp = PASSWORD_VALIDATE)
     private String password;
     @Column(nullable = false)
-    @NotNull
     @NotEmpty
     @Size(min = 3, max = 20, message = INVALID_TEXT_LENGTH_MASSAGE)
     private String name;
     @Column(nullable = false, unique = true)
-    @NotNull
     @NotEmpty
     @Pattern(regexp = EMAIL_VALIDATE)
     private String email;
     @Column(nullable = false)
-    @NotNull
     @NotEmpty
     private String address;
     @Column(name = "phone_number",nullable = false)
-    @NotNull
     @NotEmpty
     @Pattern(regexp = PHONE_NUMBER_VALIDATE)
     private String phoneNumber;

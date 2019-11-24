@@ -10,11 +10,11 @@ public class HomeController {
 
     @GetMapping("/")
     public String getIndex(HttpSession session) {
-        return "home/index.html";
+        return "/index.html";
     }
 
-    @GetMapping("/home")
-    public String home(){
-        return "/home/home.html";
+    @GetMapping("/about")
+    public String getAbout() {
+        return "/about.html";
     }
 }
