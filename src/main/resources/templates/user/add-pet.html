@@ -7,14 +7,14 @@
 <th:block th:include="~{fragments/user-header}"/>
 <main>
     <div class="text-center mb-3">
-        <h4 class="text-black-50 mt-2"><span th:text="${session.userName.name}"></span> you can add pet</h4>
+        <h1 class="text-black-50 mt-2"><span th:text="${session.name.name}"></span> you can add pet</h1>
     </div>
     <section class="signup">
         <div class="container">
             <div class="signup-content">
                 <div class="signup-form">
                     <h2 class="form-title">Add pet</h2>
-                    <form th:method="post" th:action="@{/sign-up-user}" class="regis ter-form" id="register-form">
+                    <form th:method="post" th:action="@{/user/add-pet}" class="regis ter-form" name="add-pet">
                         <div class="form-group">
                             <label for="breed"><i class="zmdi zmdi-account material-icons-name"></i></label>
                             <input type="text" name="breed" id="breed" placeholder="Your pet's breed"/>
@@ -46,5 +46,6 @@
 </main>
 
 <th:block th:include="~{fragments/footer}"/>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 </body>
 </html>

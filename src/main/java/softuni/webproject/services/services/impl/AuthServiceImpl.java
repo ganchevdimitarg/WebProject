@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void registerDoctor(DoctorRegisterServiceModel model) {
+    public void registerDoctor(DoctorRegisterServiceModel model) throws IllegalAccessException {
         if (!validation.isValid(model)) {
             return;
         }
@@ -52,18 +52,18 @@ public class AuthServiceImpl implements AuthService {
             doctor.setLogInKey(key);
             doctorRepository.save(doctor);
             key.setFree(false);
-            keyRepository.save(key);
+            keyRepository.saveAndFlush(key);
         }
     }
 
     @Override
-    public void registerUser(UserRegisterServiceModel model) {
+    public void registerUser(UserRegisterServiceModel model) throws IllegalAccessException {
         if (!validation.isValid(model)) {
             return;
         }
         User user = modelMapper.map(model, User.class);
         user.setPassword(hashingService.hash(user.getPassword()));
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
     }
 
     @Override

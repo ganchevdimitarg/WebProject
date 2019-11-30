@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -13,7 +14,7 @@ import java.util.List;
 import static softuni.webproject.config.Constant.*;
 
 @Entity
-@Table(name = "owners")
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,6 +33,7 @@ public class User extends BaseEntity {
     private String name;
     @Column(nullable = false, unique = true)
     @NotEmpty
+    @Email
     @Pattern(regexp = EMAIL_VALIDATE)
     private String email;
     @Column(nullable = false)

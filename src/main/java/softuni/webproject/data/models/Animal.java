@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Entity
@@ -25,9 +24,9 @@ public class Animal extends BaseEntity{
     @Size(min = 3, max = 6)
     private String name;
     @Column(nullable = false)
-    @NotEmpty
-    @Size(min = 1, max = 2)
-    private Integer age;
+    @NotNull
+    @Min(value = 0)
+    private double age;
     @Size(min = 3, max = 10)
     private String disease;
     @ManyToOne

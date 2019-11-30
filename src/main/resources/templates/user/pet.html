@@ -7,11 +7,42 @@
 <th:block th:include="~{fragments/user-header}"/>
 <main>
     <div class="text-center mb-3">
-        <h4 class="text-black-50 mt-2">Welcome <span th:text="${session.userName.name}"></span> </h4>
+        <h1 class="text-black-50 mt-2"><span th:text="${session.name.name}"></span>'s Pets </h1>
     </div>
-    <h1>Pet</h1>
+    <div class="container table-bordered">
+        <div class="row">
+            <div class="col-md-2">
+                <p>Breed</p>
+            </div>
+            <div class="col-md-2">
+                <p>Name</p>
+            </div>
+            <div class="col-md-2">
+                <p>Age</p>
+            </div>
+            <div class="col-md-2">
+                <p>Disease</p>
+            </div>
+        </div>
+        <th:block th:each="animal : ${animals}">
+            <div class="row">
+                <div class="col-md-2">
+                    [[${animal.breed}]]
+                </div>
+                <div class="col-md-2">
+                    [[${animal.name}]]
+                </div>
+                <div class="col-md-2">
+                    [[${animal.age}]]
+                </div>
+                <div class="col-md-2">
+                    [[${animal.disease}]]
+                </div>
+            </div>
+        </th:block>
+    </div>
 </main>
 
-<th:block th:include="~{fragments/footer}" />
+<th:block th:include="~{fragments/footer}"/>
 </body>
 </html>

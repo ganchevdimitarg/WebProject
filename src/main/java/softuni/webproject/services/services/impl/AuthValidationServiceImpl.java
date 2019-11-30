@@ -17,17 +17,24 @@ public class AuthValidationServiceImpl implements AuthValidationService {
     }
 
     @Override
-    public boolean isValid(BaseServiceModel model) {
+    public boolean isValid(BaseServiceModel model) throws IllegalAccessException {
         return this.isPasswordValid(model.getPassword(), model.getConfirmPassword()) &&
                 this.isUsernameFree(model.getUsername());
     }
 
-    //TODO
-    private boolean isUsernameFree(String username) {
-        return !doctorRepository.existsDoctorByUsername(username) || !userRepository.existsUserByUsername(username);
+    private boolean isUsernameFree(String username) throws IllegalAccessException {
+        if (doctorRepository.existsDoctorByUsername(username) || userRepository.existsUserByUsername(username)){
+            throw new IllegalAccessException("Username is not available");
+        }
+        return true;
     }
 
-    private boolean isPasswordValid(String password, String confirmPassword) {
-        return password.equals(confirmPassword);
+    private boolean isPasswordValid(String password, String confirmPassword) throws IllegalAccessException {
+        if (!password.equals(confirmPassword)){
+            throw new IllegalAccessException("Password and confirmation password not match");
+        }
+        return true;
     }
+
+
 }

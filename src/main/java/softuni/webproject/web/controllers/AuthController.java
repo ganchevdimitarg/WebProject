@@ -43,70 +43,70 @@ public class AuthController {
 
     @PostMapping("/sign-in")
     public String logIn(@ModelAttribute BaseControllerModel model, HttpSession session){
-        BaseServiceModel user = this.modelMapper.map(model, BaseServiceModel.class);
+        BaseServiceModel user = modelMapper.map(model, BaseServiceModel.class);
         try {
             LogInServiceModel login = auth.logIn(user);
-            session.setAttribute("userName", login);
+            session.setAttribute("name", login);
             if (model.getLogInKey().isEmpty()){
-                return "redirect:/user/user-home";
+                return "redirect:user/user-home";
             }
-            return "redirect:/doctor/doctor-home";
+            return "redirect:doctor/doctor-home";
         }catch (Exception e){
             return "redirect:/sign-in";
         }
     }
 
-    @ExceptionHandler(LogInHandleException.class)
-    public ModelAndView handleException(LogInHandleException ex){
-        ModelAndView modelAndView = new ModelAndView("error");
-        modelAndView.addObject("massage", ex.getMessage());
-
-        return modelAndView;
-    }
-
     //User
-    @ModelAttribute("registerUser")
-    public UserRegisterControllerModel registerUser(){
-        return new UserRegisterControllerModel();
-    }
-
     @GetMapping("/sign-up-user")
     public String getSignUpPatient() {
         return "auth/sign-up-user.html";
     }
 
+    @ModelAttribute("registerUser")
+    public UserRegisterControllerModel registerUser(){
+        return new UserRegisterControllerModel();
+    }
+
     @PostMapping("/sign-up-user")
-    public String registerPatient(@Valid @ModelAttribute("registerUser") UserRegisterControllerModel user, BindingResult bindingResult) {
+    public String registerPatient(@Valid @ModelAttribute("registerUser") UserRegisterControllerModel user, BindingResult bindingResult) throws IllegalAccessException {
         if (bindingResult.hasErrors()){
             return "auth/sign-up-user";
         }
-        UserRegisterServiceModel userModel = this.modelMapper.map(user, UserRegisterServiceModel.class);
+        UserRegisterServiceModel userModel = modelMapper.map(user, UserRegisterServiceModel.class);
         auth.registerUser(userModel);
 
         return "redirect:/sign-in";
     }
 
     //Doctor
-    @ModelAttribute("registerDoctor")
-    public DoctorRegisterControllerModel registerDoctor(){
-        return new DoctorRegisterControllerModel();
-    }
-
     @GetMapping("/sign-up-doctor")
     public String getSignUpDoctor() {
         logInIdentificationKeyService.generateKey();
         return "auth/sign-up-doctor.html";
     }
 
+    @ModelAttribute("registerDoctor")
+    public DoctorRegisterControllerModel registerDoctor(){
+        return new DoctorRegisterControllerModel();
+    }
+
     @PostMapping("/sign-up-doctor")
-    public String registerDoctor(@Valid @ModelAttribute("registerDoctor") DoctorRegisterControllerModel model, BindingResult bindingResult) {
+    public String registerDoctor(@Valid @ModelAttribute("registerDoctor") DoctorRegisterControllerModel model, BindingResult bindingResult) throws IllegalAccessException {
         if (bindingResult.hasErrors()){
             return "auth/sign-up-doctor";
         }
-        DoctorRegisterServiceModel doctorModel = this.modelMapper.map(model, DoctorRegisterServiceModel.class);
+        DoctorRegisterServiceModel doctorModel = modelMapper.map(model, DoctorRegisterServiceModel.class);
         auth.registerDoctor(doctorModel);
 
         return "redirect:/sign-in";
     }
 
+
+    @ExceptionHandler(LogInHandleException.class)
+    public ModelAndView handleException(LogInHandleException ex){
+        ModelAndView modelAndView = new ModelAndView("error");
+        modelAndView.addObject("message", ex.getMessage());
+
+        return modelAndView;
+    }
 }

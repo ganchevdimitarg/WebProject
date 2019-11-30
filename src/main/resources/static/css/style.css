@@ -221,22 +221,18 @@ h2 {
     font-size: 36px;
 }
 
-.main {
-    background: #f8f8f8;
-    padding: 150px 0;
-}
-
 .clear {
     clear: both;
 }
 
 body {
+    height: 1000px;
     font-size: 13px;
     line-height: 1.8;
     color: #222;
     background: #f8f8f8;
     font-weight: 400;
-    font-family: Poppins;
+    font-family: Poppins, sans-serif;
 }
 
 .container {
@@ -500,11 +496,10 @@ label {
 }
 
 label.error {
+    color: red;
+    font-weight: bold;
     position: relative;
-    background: url("../images/unchecked.gif") no-repeat;
-    background-position-y: 3px;
     padding-left: 20px;
-    display: block;
     margin-top: 20px;
 }
 
@@ -735,7 +730,6 @@ header, section, .padding-null {
 }
 
 main {
-    padding-top: 100px;
     padding-bottom: 50px;
 }
 
@@ -749,9 +743,10 @@ main {
 
 .photo-bg {
     width: 100%;
-    height: 20px;
-    /*background-image: url("");*/
-    background-color: red;
+    height: 80vh;
+    background-position: center;
+    background-image: url("http://www.brightvetclinic.com/wp-content/uploads/2017/03/1-slide.jpg");
+    background-repeat: no-repeat;
 }
 
 .site-section {
@@ -829,7 +824,7 @@ main {
 
 @font-face {
     font-family: Montserrat-Regular;
-    src: url('../fonts/montserrat/Montserrat-Regular.ttf');
+    src: url('/fonts/montserrat/Montserrat-Regular.ttf');
 }
 
 @font-face {
@@ -1262,7 +1257,10 @@ textarea.input1 + .shadow-input1 {
     }
 }
 
-/*footer*/
+.text-center {
+    margin-top: 80px;
+}
+
 .footer {
     position: fixed;
     bottom: 0;
@@ -1273,7 +1271,7 @@ textarea.input1 + .shadow-input1 {
 }
 
 .showing {
-  display: none;
+    display: none;
 }
 
 #hiding {
@@ -1283,4 +1281,10 @@ textarea.input1 + .shadow-input1 {
 .radio-button {
     display: inline-block;
     width: 30px;
+}
+
+/*Google map*/
+#map_container {
+    width: 500px;
+    height: 350px;
 }
