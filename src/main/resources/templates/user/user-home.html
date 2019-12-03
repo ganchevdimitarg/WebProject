@@ -7,7 +7,7 @@
 <th:block th:include="~{fragments/user-header}"/>
 <main>
     <div class="text-center mb-3">
-        <h1 class="text-black-50 mt-2">Welcome <span th:text="${session.name.name}"></span></h1>
+        <h1 class="text-black-50 mt-2">Welcome <span th:text="${session.username.username}"></span></h1>
     </div>
     <div class="container">
         <div class="row">
@@ -15,17 +15,45 @@
                     src="https://adayinthelifeimages.com/wp-content/uploads/2016/05/brisbane-headshots-commercial-photography-09.jpg"
                     alt=""></div>
             <div class="col-md-6">
-                <h4>Username: [[${user.username}]]</h4>
+                <h4>Name: [[${user.name}]]</h4>
                 <h4>Email: [[${user.email}]]</h4>
                 <h4>Address: [[${user.address}]]</h4>
                 <h4>PhoneNumber: [[${user.phoneNumber}]]</h4>
                 <div class="container">
                     <div class="row"></div>
                     <a class="col-md-3 btn btn-info" th:href="@{/user/pet}">Pets</a>
-                    <!-- TODO -->
-                    <a class="col-md-3 btn btn-primary" href="#" th:href="@{/user/user-home/change}">Change Info</a>
-                    <a class="col-md-3 btn btn-danger" href="#" th:href="@{/user/user-home/delete}">Delete</a>
+                    <a class="col-md-3 btn btn-primary" id="hiding-update-info" href="#hide-update-input">Update
+                        Info</a>
+                    <form th:action="@{/user/user-home/delete}" method="post" class="">
+                        <input type="submit" value="Delete" class="col-md-3 btn btn-danger" />
+                    </form>
                 </div>
+            </div>
+        </div>
+        <div class="row" id="hide-update-input">
+            <div class="col-md-6"></div>
+            <div class="col-md-6">
+                <form th:method="post" th:action="@{/user/user-home}" class="regis ter-form" name="update-user"
+                      target="_self">
+                    <div class="form-group">
+                        <label for="email"><i class="zmdi zmdi-email"></i></label>
+                        <input type="email" name="email" id="email" placeholder="Your Email - lorem@abv.bg"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="address"><i
+                                class="zmdi zmdi-attachment material-icons-name"></i></label>
+                        <input type="text" name="address" id="address" placeholder="Your Address - Ivan Vazov 3"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber"><i class="zmdi zmdi-phone material-icons-name"></i></label>
+                        <input type="text" name="phoneNumber" id="phoneNumber"
+                               placeholder="Your Phone Number - 0888888888"/>
+                    </div>
+                    <div class="form-group form-button">
+                        <input type="submit" name="signup" id="signup" class="form-submit"
+                               value="Update"/>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

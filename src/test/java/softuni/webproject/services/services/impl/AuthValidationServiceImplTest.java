@@ -7,6 +7,7 @@ import softuni.webproject.data.models.Doctor;
 import softuni.webproject.data.repositories.DoctorRepository;
 import softuni.webproject.data.repositories.UserRepository;
 import softuni.webproject.services.models.BaseServiceModel;
+import softuni.webproject.services.services.auth.impl.AuthValidationServiceImpl;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

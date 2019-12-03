@@ -14,18 +14,15 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 public class Schedule extends BaseEntity {
-    @Column(nullable = false)
+    @Column(name = "data_of_review", nullable = false)
     @NotNull
     @NotEmpty
-    private String data;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id")
+    private String dateReview;
+    @ManyToOne
+    @JoinColumn(name = "doctors_id")
     private Doctor doctor;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-    @Column(nullable = false)
-    @NotNull
-    @NotEmpty
+    @ManyToOne
+    @JoinColumn(name = "animals_id")
+    private Animal animal;
     private boolean isFinished;
 }

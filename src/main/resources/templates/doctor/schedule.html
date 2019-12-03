@@ -5,13 +5,75 @@
 <th:block th:include="~{fragments/head}"/>
 <body>
 <th:block th:include="~{fragments/doctor-header}"/>
+<div class="text-center mb-3">
+</div>
 <main>
-    <div class="text-center mb-3">
-        <h4 class="text-black-50 mt-2">Welcome <span th:text="${session.name.name}"></span> </h4>
+    <div class="container table-bordered">
+        <div class="row">
+            <form th:method="post" th:action="@{/doctor/schedule}" class="col-md-12 regis ter-form" name="schedule">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3">
+                            Date Review: <input type="text" name="dateReview" id="dateReview" placeholder="16/03/2019 - 16:30"/>
+                        </div>
+                        <div class="col-md-3">
+                            Doctor: <input type="text" name="doctor" id="doctor" placeholder="Ivan Vazov"/>
+                        </div>
+                        <div class="col-md-3">
+                            Animal: <input type="text" name="animal" id="animal" placeholder="Max"/>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="submit" name="signup" id="signup" class="form-submit"
+                                   value="Add Schedule"/>
+                        </div>
+                    </div>
+                </div>
+
+        </form>
     </div>
-    <h1>Schedule</h1>
+
+    <div class="row">
+        <div class="col-md-2">
+            <p>Date</p>
+        </div>
+        <div class="col-md-2">
+            <p>Doctor</p>
+        </div>
+        <div class="col-md-2">
+            <p>Animal</p>
+        </div>
+        <div class="col-md-2">
+            <p>Disease</p>
+        </div>
+        <div class="col-md-2">
+            <p>Completed</p>
+        </div>
+    </div>
+
+    <th:block th:each="schedule : ${schedules}">
+        <div class="row">
+            <div class="col-md-2">
+                [[${schedule.dateReview}]]
+            </div>
+            <div class="col-md-2">
+                [[${schedule.doctor}]]
+            </div>
+            <div class="col-md-2">
+                [[${schedule.animal}]]
+            </div>
+
+            <div class="col-md-2">
+                <!--                    <form th:method="post" action="/d">-->
+                <!--                        <input type="checkbox" th:text="${schedule.completed}"/>-->
+                <form:checkbox path="isFinished" value="Completed"/>
+                <!--                    </form>-->
+            </div>
+        </div>
+    </th:block>
+    </div>
 </main>
 
-<th:block th:include="~{fragments/footer}" />
+<th:block th:include="~{fragments/footer}"/>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 </body>
 </html>

@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.webproject.errors.LogInHandleException;
 import softuni.webproject.services.models.BaseServiceModel;
-import softuni.webproject.services.models.DoctorRegisterServiceModel;
-import softuni.webproject.services.models.LogInServiceModel;
-import softuni.webproject.services.models.UserRegisterServiceModel;
-import softuni.webproject.services.services.AuthService;
-import softuni.webproject.services.services.LogInIdentificationKeyService;
+import softuni.webproject.services.models.DoctorServiceModel;
+import softuni.webproject.services.models.CurrentUser;
+import softuni.webproject.services.models.UserServiceModel;
+import softuni.webproject.services.services.auth.AuthService;
+import softuni.webproject.services.services.doctor.IdentificationKeyService;
 import softuni.webproject.web.models.BaseControllerModel;
-import softuni.webproject.web.models.DoctorRegisterControllerModel;
-import softuni.webproject.web.models.UserRegisterControllerModel;
+import softuni.webproject.web.models.doctor.DoctorControllerModel;
+import softuni.webproject.web.models.user.UserControllerModel;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -26,13 +26,13 @@ import javax.validation.Valid;
 @Controller
 public class AuthController {
     private final AuthService auth;
-    private final LogInIdentificationKeyService logInIdentificationKeyService;
+    private final IdentificationKeyService identificationKeyService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public AuthController(AuthService auth, LogInIdentificationKeyService logInIdentificationKeyService, ModelMapper modelMapper) {
+    public AuthController(AuthService auth, IdentificationKeyService identificationKeyService, ModelMapper modelMapper) {
         this.auth = auth;
-        this.logInIdentificationKeyService = logInIdentificationKeyService;
+        this.identificationKeyService = identificationKeyService;
         this.modelMapper = modelMapper;
     }
 
@@ -45,8 +45,8 @@ public class AuthController {
     public String logIn(@ModelAttribute BaseControllerModel model, HttpSession session){
         BaseServiceModel user = modelMapper.map(model, BaseServiceModel.class);
         try {
-            LogInServiceModel login = auth.logIn(user);
-            session.setAttribute("name", login);
+            CurrentUser login = auth.logIn(user);
+            session.setAttribute("username", login);
             if (model.getLogInKey().isEmpty()){
                 return "redirect:user/user-home";
             }
@@ -63,16 +63,16 @@ public class AuthController {
     }
 
     @ModelAttribute("registerUser")
-    public UserRegisterControllerModel registerUser(){
-        return new UserRegisterControllerModel();
+    public UserControllerModel registerUser(){
+        return new UserControllerModel();
     }
 
     @PostMapping("/sign-up-user")
-    public String registerPatient(@Valid @ModelAttribute("registerUser") UserRegisterControllerModel user, BindingResult bindingResult) throws IllegalAccessException {
+    public String registerPatient(@Valid @ModelAttribute("registerUser") UserControllerModel user, BindingResult bindingResult) throws IllegalAccessException {
         if (bindingResult.hasErrors()){
             return "auth/sign-up-user";
         }
-        UserRegisterServiceModel userModel = modelMapper.map(user, UserRegisterServiceModel.class);
+        UserServiceModel userModel = modelMapper.map(user, UserServiceModel.class);
         auth.registerUser(userModel);
 
         return "redirect:/sign-in";
@@ -81,21 +81,21 @@ public class AuthController {
     //Doctor
     @GetMapping("/sign-up-doctor")
     public String getSignUpDoctor() {
-        logInIdentificationKeyService.generateKey();
+        identificationKeyService.generateKey();
         return "auth/sign-up-doctor.html";
     }
 
     @ModelAttribute("registerDoctor")
-    public DoctorRegisterControllerModel registerDoctor(){
-        return new DoctorRegisterControllerModel();
+    public DoctorControllerModel registerDoctor(){
+        return new DoctorControllerModel();
     }
 
     @PostMapping("/sign-up-doctor")
-    public String registerDoctor(@Valid @ModelAttribute("registerDoctor") DoctorRegisterControllerModel model, BindingResult bindingResult) throws IllegalAccessException {
+    public String registerDoctor(@Valid @ModelAttribute("registerDoctor") DoctorControllerModel model, BindingResult bindingResult) throws IllegalAccessException {
         if (bindingResult.hasErrors()){
             return "auth/sign-up-doctor";
         }
-        DoctorRegisterServiceModel doctorModel = modelMapper.map(model, DoctorRegisterServiceModel.class);
+        DoctorServiceModel doctorModel = modelMapper.map(model, DoctorServiceModel.class);
         auth.registerDoctor(doctorModel);
 
         return "redirect:/sign-in";

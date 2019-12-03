@@ -7,11 +7,43 @@
 <th:block th:include="~{fragments/doctor-header}"/>
 <main>
     <div class="text-center mb-3">
-        <h4 class="text-black-50 mt-2">Welcome <span th:text="${session.name.name}"></span> </h4>
+        <h4 class="text-black-50 mt-2">Medicines</h4>
     </div>
-    <h1>Medicine</h1>
+    </br>
+    <div class="container">
+        <div class="row">
+            <form th:method="post" th:action="@{/doctor/medicine}" class="col-md-12 regis ter-form" name="medicine">
+                <div class="container">
+                    <div class="row">
+                        <label for="name" class="col-md-3">Medicine's Name: </label>
+                        <input type="text" class="col-md-3" name="name" id="name"
+                               placeholder="Medicine Name - Ambrozia"/>
+                        <label for="description" class="col-md-3">Medicine's description: </label>
+                        <input type="text" class="col-md-3" name="description" id="description"
+                               placeholder="Medicine Description"/>
+                    </div>
+                    <input type="submit" name="signup" id="signup" class="form-submit"
+                           value="Add Medicine"/>
+                </div>
+            </form>
+        </div>
+        <th:block th:unless="${medicines == null}">
+            <th:block th:each="medicine : ${medicines}">
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="https://images-i.jpimedia.uk/imagefetch/https://inews.co.uk/wp-content/uploads/2019/08/GettyImages-1026417518.jpg?crop=61:45,smart&width=280"
+                             alt="Arnica">
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Name: [[${medicine.name}]]</h4>
+                        <h4>Description: [[${medicine.description}]]</h4>
+                    </div>
+                </div>
+            </th:block>
+        </th:block>
+    </div>
 </main>
 
-<th:block th:include="~{fragments/footer}" />
+<th:block th:include="~{fragments/footer}"/>
 </body>
 </html>

@@ -7,9 +7,27 @@
 <th:block th:include="~{fragments/doctor-header}"/>
 <main>
     <div class="text-center mb-3">
-        <h4 class="text-black-50 mt-2">Welcome <span th:text="${session.name.name}"></span> </h4>
+        <h4 class="text-black-50 mt-2">Welcome <span th:text="${session.username.username}"></span> </h4>
     </div>
-
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Name: [[${doctor.name}]]</h4>
+                <h4>Specialization: [[${doctor.specialization}]]</h4>
+                <h4>Description: [[${doctor.description}]]</h4>
+                <div class="container">
+                    <div class="row"></div>
+                    <a class="col-md-3 btn btn-info" th:href="@{/doctor/schedule}">Schedule</a>
+                    <a class="col-md-3 btn btn-info" th:href="@{/doctor/medicine}">Medicine</a>
+                    <form th:action="@{/doctor/doctor-home/delete}" method="post" class="">
+                        <input type="submit" value="Delete" class="col-md-3 btn btn-danger" />
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6"><img
+                    src="https://adayinthelifeimages.com/wp-content/uploads/2016/05/brisbane-headshots-commercial-photography-09.jpg"
+                    alt=""></div>
+        </div>
 </main>
 
 <th:block th:include="~{fragments/footer}" />

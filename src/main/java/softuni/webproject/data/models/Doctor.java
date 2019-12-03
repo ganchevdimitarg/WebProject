@@ -1,13 +1,13 @@
 package softuni.webproject.data.models;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 import static softuni.webproject.config.Constant.INVALID_TEXT_LENGTH_MASSAGE;
@@ -17,7 +17,6 @@ import static softuni.webproject.config.Constant.PASSWORD_VALIDATE;
 @Table(name = "doctors")
 @Getter
 @Setter
-@NoArgsConstructor
 public class Doctor extends BaseEntity {
     @Column(nullable = false, unique = true)
     @Size(min = 3, max = 20, message = INVALID_TEXT_LENGTH_MASSAGE)
@@ -27,7 +26,7 @@ public class Doctor extends BaseEntity {
     @Pattern(regexp = PASSWORD_VALIDATE)
     @NotEmpty
     private String password;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @Size(min = 3, max = 20, message = INVALID_TEXT_LENGTH_MASSAGE)
     @NotEmpty
     private String name;
@@ -41,9 +40,14 @@ public class Doctor extends BaseEntity {
     private String description;
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Animal> animals;
-    @OneToOne(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Schedule schedule;
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Schedule> schedules;
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "logInKey_id")
-    private LogInIdentificationKey logInKey;
+    private IdentificationKey logInKey;
+
+    public Doctor() {
+        animals = new ArrayList<>();
+        schedules = new ArrayList<>();
+    }
 }

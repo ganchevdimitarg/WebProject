@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.webproject.config.EmailConfiguration;
 import softuni.webproject.services.models.FeedbackServiceModel;
-import softuni.webproject.services.services.FeedbackService;
-import softuni.webproject.web.models.FeedbackControllerModel;
+import softuni.webproject.services.services.feedback.FeedbackService;
+import softuni.webproject.web.models.feedback.FeedbackControllerModel;
 
 import javax.validation.ValidationException;
 

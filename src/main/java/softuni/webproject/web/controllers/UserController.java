@@ -7,12 +7,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.webproject.services.models.AnimalServiceModel;
-import softuni.webproject.services.models.LogInServiceModel;
-import softuni.webproject.services.services.AnimalService;
-import softuni.webproject.services.services.UserService;
-import softuni.webproject.web.models.AnimalAddPetControllerModel;
-import softuni.webproject.web.models.AnimalViewModel;
-import softuni.webproject.web.models.UserViewModel;
+import softuni.webproject.services.models.CurrentUser;
+import softuni.webproject.services.models.UserServiceModel;
+import softuni.webproject.services.services.animal.AnimalService;
+import softuni.webproject.services.services.user.UserService;
+import softuni.webproject.web.models.animal.AddAnimalControllerModel;
+import softuni.webproject.web.models.animal.AnimalViewModel;
+import softuni.webproject.web.models.user.UserUpdateControllerModel;
+import softuni.webproject.web.models.user.UserViewModel;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -35,20 +37,41 @@ public class UserController {
 
     @GetMapping("/user-home")
     public ModelAndView getUserHome(ModelAndView modelAndView, HttpSession session) {
-        LogInServiceModel logInServiceModel = getCurrentUser(session);
-        UserViewModel userView = modelMapper.map(userService.findByName(logInServiceModel.getName()), UserViewModel.class);
+        CurrentUser currentUser = getCurrentUser(session);
+        UserViewModel userView = modelMapper.map(userService.findByUsername(currentUser.getUsername()), UserViewModel.class);
         modelAndView.addObject("user", userView);
         modelAndView.setViewName("user/user-home.html");
         return modelAndView;
     }
 
-    @DeleteMapping("/user-home/delete")
-    public String deleteBuyer(HttpSession session) {
-        LogInServiceModel logInServiceModel = getCurrentUser(session);
-        userService.deleteUser(logInServiceModel.getName());
-
-        return "redirect:/user/user-home";
+    @ModelAttribute("updateUserInfo")
+    public UserUpdateControllerModel updateUserInfo(){
+        return new UserUpdateControllerModel();
     }
+
+    @PostMapping("/user-home")
+    public void update(@Valid @ModelAttribute("updateUserInfo") UserUpdateControllerModel user, HttpSession session){
+        UserServiceModel model = modelMapper.map(user, UserServiceModel.class);
+        userService.update(model);
+    }
+
+    @PostMapping("/user-home/delete")
+    public String delete(HttpSession session) {
+        CurrentUser currentUser = getCurrentUser(session);
+        userService.deleteUser(currentUser.getUsername());
+        session.invalidate();
+
+        return "redirect:/";
+    }
+
+//    TODO
+//    @PostMapping("/user-home/delete-pet")
+//    public String deletePet(@ModelAttribute("animal") String id, HttpSession session) {
+//        LogInServiceModel logInServiceModel = getCurrentUser(session);
+//        userService.deletePet(logInServiceModel.getUsername(), id);
+//
+//        return "redirect:/user/pet";
+//    }
 
     @GetMapping("/add-pet")
     public String getAddPet() {
@@ -56,27 +79,27 @@ public class UserController {
     }
 
     @ModelAttribute("addPetModel")
-    public AnimalAddPetControllerModel addPetModel(){
-        return new AnimalAddPetControllerModel();
+    public AddAnimalControllerModel addPetModel(){
+        return new AddAnimalControllerModel();
     }
 
     @PostMapping("/add-pet")
-    public String addPet(@Valid @ModelAttribute("addPetModel") AnimalAddPetControllerModel animal, BindingResult bindingResult, HttpSession session){
+    public String addPet(@Valid @ModelAttribute("addPetModel") AddAnimalControllerModel animal, BindingResult bindingResult, HttpSession session){
         if (bindingResult.hasErrors()){
             return "/user/add-pet";
         }
         AnimalServiceModel animalServiceModel = modelMapper.map(animal, AnimalServiceModel.class);
-        LogInServiceModel logInServiceModel = getCurrentUser(session);
+        CurrentUser currentUser = getCurrentUser(session);
 
-        animalService.save(animalServiceModel, logInServiceModel.getName());
+        animalService.save(animalServiceModel, currentUser.getUsername());
         session.setAttribute("animalName", animalServiceModel.getName());
         return "redirect:/user/pet";
     }
 
     @GetMapping("/pet")
     public ModelAndView getUserAnimals(ModelAndView modelAndView, HttpSession session){
-        LogInServiceModel logInServiceModel = getCurrentUser(session);
-        List<AnimalViewModel> animals = animalService.getCurrentUserAnimal(logInServiceModel.getName())
+        CurrentUser currentUser = getCurrentUser(session);
+        List<AnimalViewModel> animals = animalService.getCurrentUserAnimal(currentUser.getUsername())
                 .stream()
                 .map(s -> modelMapper.map(s, AnimalViewModel.class))
                 .collect(Collectors.toList());
@@ -90,7 +113,7 @@ public class UserController {
         return "/user/contact";
     }
 
-    private LogInServiceModel getCurrentUser(HttpSession session) {
-        return (LogInServiceModel) session.getAttribute("name");
+    private CurrentUser getCurrentUser(HttpSession session) {
+        return (CurrentUser) session.getAttribute("username");
     }
 }

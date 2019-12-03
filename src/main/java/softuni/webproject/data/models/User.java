@@ -45,6 +45,4 @@ public class User extends BaseEntity {
     private String phoneNumber;
     @OneToMany(mappedBy = "user")
     private List<Animal> animals;
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Schedule schedule;
 }

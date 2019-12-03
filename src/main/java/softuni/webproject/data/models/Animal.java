@@ -2,24 +2,26 @@ package softuni.webproject.data.models;
 
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "animals")
 @Getter
 @Setter
-@NoArgsConstructor
 public class Animal extends BaseEntity{
     @Column(nullable = false)
     @NotEmpty
     @Size(min = 3, max = 6)
     private String breed;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @NotEmpty
     @Size(min = 3, max = 6)
     private String name;
@@ -39,4 +41,11 @@ public class Animal extends BaseEntity{
     @JoinTable(name = "animal_medicine", joinColumns = {@JoinColumn(name = "animal_id")},
             inverseJoinColumns = {@JoinColumn(name = "medicine_id")})
     private List<Medicine> medicines;
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Schedule> schedules;
+
+    public Animal() {
+        medicines = new ArrayList<>();
+        schedules = new ArrayList<>();
+    }
 }

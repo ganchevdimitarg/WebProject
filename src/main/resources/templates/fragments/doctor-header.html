@@ -11,6 +11,9 @@
                 <div class="collapse navbar-collapse" id="navbarResponsiveDoctor">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" th:href="@{/doctor/doctor-home}"><span th:text="${session.username.username}"></span></a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" th:href="@{/doctor/doctor-home}">Home</a>
                         </li>
                         <li class="nav-item">

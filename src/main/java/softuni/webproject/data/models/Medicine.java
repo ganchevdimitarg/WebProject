@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Medicine extends BaseEntity {
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @NotNull
     @NotEmpty
     private String name;

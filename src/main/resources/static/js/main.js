@@ -115,6 +115,12 @@ $(document).ready(function () {
         }
     });
 
+    $("#hide-update-input").hide();
+
+    $("#hiding-update-info").click(function () {
+        $("#hide-update-input").show();
+    });
+
 
     $(".input-error-massage").hide();
 });
@@ -280,7 +286,7 @@ $(function () {
             },
             password: {
                 required: true,
-                minlength: 6
+                minlength: 6,
             },
             confirmPassword: {
                 required: true,
@@ -316,7 +322,7 @@ $(function () {
             },
             password: {
                 required: "Please provide a password",
-                minlength: "Your password must be at least 6 characters long - at least one letter and one digit"
+                minlength: "Your password must be at least 6 characters long - at least one letter and one digit",
             },
             confirmPassword: {
                 required: "Please provide a confirmation password",
@@ -330,7 +336,7 @@ $(function () {
             email: {
                 required: "Please enter your email.",
                 minlength: "Your password must be at least 3 characters long",
-                maxlength: "Your password must be at maximum 20 characters long"
+                maxlength: "Your password must be at maximum 20 characters long",
             },
             address: {
                 required: "Please enter your address.",
@@ -398,6 +404,134 @@ $(function () {
             },
             disease: {
                 required: "Please enter your pet's disease or None",
+            }
+        },
+        // Make sure the form is submitted to the destination defined
+        // in the "action" attribute of the form when valid
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+});
+
+//validation user update form
+$(function () {
+    // Initialize form validation on the registration form.
+    // It has the name attribute "registration"
+    $("form[name='update-user']").validate({
+        // Specify validation rules
+        rules: {
+            // The key name on the left side is the name attribute
+            // of an input field. Validation rules are defined
+            // on the right side
+            email: {
+                required: true,
+                minlength: 10,
+                maxlength: 30,
+            },
+            address: {
+                required: true,
+                minlength: 3,
+                maxlength: 30
+            },
+            phoneNumber: {
+                required: true,
+                minlength: 6,
+                maxlength: 20
+            }
+        },
+        // Specify validation error messages
+        messages: {
+            email: {
+                required: "Please enter your email.",
+                minlength: "Your password must be at least 3 characters long",
+                maxlength: "Your password must be at maximum 20 characters long",
+            },
+            address: {
+                required: "Please enter your address.",
+                minlength: "Your password must be at least 3 characters long",
+                maxlength: "Your password must be at maximum 20 characters long"
+            },
+            phoneNumber: {
+                required: "Please enter your phone number.",
+                minlength: "Your password must be at least 3 characters long",
+                maxlength: "Your password must be at maximum 20 characters long"
+            }
+        },
+        // Make sure the form is submitted to the destination defined
+        // in the "action" attribute of the form when valid
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+});
+
+//validation add schedule form
+$(function () {
+    // Initialize form validation on the registration form.
+    // It has the name attribute "registration"
+    $("form[name='medicine']").validate({
+        // Specify validation rules
+        rules: {
+            // The key name on the left side is the name attribute
+            // of an input field. Validation rules are defined
+            // on the right side
+            name: {
+                required: true,
+            },
+            description: {
+                required: true
+            }
+        },
+        // Specify validation error messages
+        messages: {
+            name: {
+                required: "Please enter name.",
+            },
+            description: {
+                required: "Please enter description.",
+            }
+        },
+        // Make sure the form is submitted to the destination defined
+        // in the "action" attribute of the form when valid
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+});
+
+//validation add schedule form
+$(function () {
+    // Initialize form validation on the registration form.
+    // It has the name attribute "registration"
+    $("form[name='schedule']").validate({
+        // Specify validation rules
+        rules: {
+            // The key name on the left side is the name attribute
+            // of an input field. Validation rules are defined
+            // on the right side
+            date: {
+                required: true,
+                minlength: 10,
+                maxlength: 18
+            },
+            doctor: {
+                required: true
+            },
+            animal: {
+                required: true
+            }
+        },
+        // Specify validation error messages
+        messages: {
+            date: {
+                required: "Please enter date.",
+            },
+            doctor: {
+                required: "Please enter doctor.",
+            },
+            animal: {
+                required: "Please enter animal.",
             }
         },
         // Make sure the form is submitted to the destination defined

@@ -7,7 +7,7 @@
 <th:block th:include="~{fragments/user-header}"/>
 <main>
     <div class="text-center mb-3">
-        <h1 class="text-black-50 mt-2"><span th:text="${session.name.name}"></span> you can add pet</h1>
+        <h1 class="text-black-50 mt-2"><span th:text="${session.username.username}"></span> you can add pet</h1>
     </div>
     <section class="signup">
         <div class="container">
@@ -17,15 +17,15 @@
                     <form th:method="post" th:action="@{/user/add-pet}" class="regis ter-form" name="add-pet">
                         <div class="form-group">
                             <label for="breed"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                            <input type="text" name="breed" id="breed" placeholder="Your pet's breed"/>
+                            <input type="text" name="breed" id="breed" placeholder="Your pet's breed - dog"/>
                         </div>
                         <div class=" form-group">
                             <label for="name"><i class="zmdi zmdi-lock"></i></label>
-                            <input type="text" name="name" id="name" placeholder="Your pet's name"/>
+                            <input type="text" name="name" id="name" placeholder="Your pet's name - Max"/>
                         </div>
                         <div class="form-group">
                             <label for="age"><i class="zmdi zmdi-lock-outline"></i></label>
-                            <input type="number" name="age" id="age" placeholder="Your pet's age"/>
+                            <input type="number" name="age" id="age" placeholder="Your pet's age - 1"/>
                         </div>
                         <div class="form-group">
                             <label for="disease"><i class="zmdi zmdi-email"></i></label>
@@ -46,6 +46,5 @@
 </main>
 
 <th:block th:include="~{fragments/footer}"/>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 </body>
 </html>

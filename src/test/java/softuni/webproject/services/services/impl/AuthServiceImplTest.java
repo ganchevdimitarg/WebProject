@@ -5,14 +5,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import softuni.webproject.data.models.Doctor;
-import softuni.webproject.data.models.LogInIdentificationKey;
+import softuni.webproject.data.models.IdentificationKey;
 import softuni.webproject.data.models.User;
 import softuni.webproject.data.repositories.DoctorRepository;
-import softuni.webproject.data.repositories.LogInIdentificationKeyRepository;
+import softuni.webproject.data.repositories.IdentificationKeyRepository;
 import softuni.webproject.data.repositories.UserRepository;
 import softuni.webproject.services.models.BaseServiceModel;
-import softuni.webproject.services.services.AuthValidationService;
-import softuni.webproject.services.services.HashingService;
+import softuni.webproject.services.services.auth.AuthValidationService;
+import softuni.webproject.services.services.auth.HashingService;
+import softuni.webproject.services.services.auth.impl.AuthServiceImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -20,7 +21,7 @@ class AuthServiceImplTest {
     AuthValidationService validation;
     DoctorRepository doctorRepository;
     UserRepository userRepository;
-    LogInIdentificationKeyRepository keyRepository;
+    IdentificationKeyRepository keyRepository;
     HashingService hashingService;
 
     AuthServiceImpl service;
@@ -30,7 +31,7 @@ class AuthServiceImplTest {
         validation = Mockito.mock(AuthValidationService.class);
         doctorRepository = Mockito.mock(DoctorRepository.class);
         userRepository = Mockito.mock(UserRepository.class);
-        keyRepository = Mockito.mock(LogInIdentificationKeyRepository.class);
+        keyRepository = Mockito.mock(IdentificationKeyRepository.class);
         hashingService = Mockito.mock(HashingService.class);
         ModelMapper modelMapper = new ModelMapper();
 
@@ -83,7 +84,7 @@ class AuthServiceImplTest {
         doctor.setUsername("ivan");
         doctor.setPassword("123456q");
 
-        LogInIdentificationKey key = new LogInIdentificationKey();
+        IdentificationKey key = new IdentificationKey();
         key.setLogKey("126qqq");
         Mockito.when(keyRepository.findByLogKey("126qqq")).thenReturn(key);
 
