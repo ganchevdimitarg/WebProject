@@ -10,4 +10,6 @@ public interface AnimalService {
     AnimalServiceModel findByName(String name);
 
     List<AnimalServiceModel> getCurrentUserAnimal(String name);
+
+    void addMedicineDisease(String animalName, String medicineName, String disease);
 }

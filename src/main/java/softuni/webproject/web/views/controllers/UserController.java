@@ -1,4 +1,4 @@
-package softuni.webproject.web.controllers;
+package softuni.webproject.web.views.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +11,10 @@ import softuni.webproject.services.models.CurrentUser;
 import softuni.webproject.services.models.UserServiceModel;
 import softuni.webproject.services.services.animal.AnimalService;
 import softuni.webproject.services.services.user.UserService;
-import softuni.webproject.web.models.animal.AddAnimalControllerModel;
-import softuni.webproject.web.models.animal.AnimalViewModel;
-import softuni.webproject.web.models.user.UserUpdateControllerModel;
-import softuni.webproject.web.models.user.UserViewModel;
+import softuni.webproject.web.views.models.animal.AddAnimalControllerModel;
+import softuni.webproject.web.views.models.animal.AnimalViewModel;
+import softuni.webproject.web.views.models.user.UserUpdateControllerModel;
+import softuni.webproject.web.views.models.user.UserViewModel;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;

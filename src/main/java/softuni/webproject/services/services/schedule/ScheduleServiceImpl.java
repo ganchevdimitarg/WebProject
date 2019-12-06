@@ -2,6 +2,8 @@ package softuni.webproject.services.services.schedule;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import softuni.webproject.data.models.Animal;
+import softuni.webproject.data.models.Doctor;
 import softuni.webproject.data.models.Schedule;
 import softuni.webproject.data.repositories.AnimalRepository;
 import softuni.webproject.data.repositories.DoctorRepository;
@@ -27,10 +29,22 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public void save(ScheduleServiceModel model) {
+        Doctor doctor = doctorRepository.findByName(model.getDoctor());
+        if (doctor == null){
+           throw new NullPointerException("There is no such doctor");
+        }
+        Animal animal = animalRepository.findByName(model.getAnimal());
+        if (animal == null){
+            throw new NullPointerException("There is no such animal");
+        }
+        animal.setDoctor(doctor);
+
         Schedule schedule = new Schedule();
         schedule.setDateReview(model.getDateReview());
-        schedule.setDoctor(doctorRepository.findByName(model.getDoctor()));
-        schedule.setAnimal(animalRepository.findByName(model.getAnimal()));
+        schedule.setDoctor(doctor);
+        schedule.setAnimal(animal);
+
+        animalRepository.saveAndFlush(animal);
         scheduleRepository.saveAndFlush(schedule);
     }
 
@@ -47,6 +61,5 @@ public class ScheduleServiceImpl implements ScheduleService {
                 })
                 .collect(Collectors.toList());
     }
-
 
 }

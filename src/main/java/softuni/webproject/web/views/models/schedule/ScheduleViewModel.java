@@ -1,4 +1,4 @@
-package softuni.webproject.web.models.schedule;
+package softuni.webproject.web.views.models.schedule;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

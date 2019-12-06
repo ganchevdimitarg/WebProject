@@ -1,4 +1,4 @@
-package softuni.webproject.web.controllers;
+package softuni.webproject.web.views.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +12,20 @@ import org.springframework.web.servlet.ModelAndView;
 import softuni.webproject.services.models.CurrentUser;
 import softuni.webproject.services.models.MedicineServiceModel;
 import softuni.webproject.services.models.ScheduleServiceModel;
+import softuni.webproject.services.models.TreatmentServiceModel;
 import softuni.webproject.services.services.animal.AnimalService;
 import softuni.webproject.services.services.doctor.DoctorService;
 import softuni.webproject.services.services.medicine.MedicineService;
 import softuni.webproject.services.services.schedule.ScheduleService;
-import softuni.webproject.web.models.doctor.DoctorViewModel;
-import softuni.webproject.web.models.medicine.AddMedicineControlModel;
-import softuni.webproject.web.models.medicine.MedicineViewModel;
-import softuni.webproject.web.models.schedule.AddScheduleControllerModel;
-import softuni.webproject.web.models.schedule.ScheduleViewModel;
+import softuni.webproject.web.views.models.doctor.DoctorViewModel;
+import softuni.webproject.web.views.models.medicine.AddMedicineControlModel;
+import softuni.webproject.web.views.models.medicine.MedicineViewModel;
+import softuni.webproject.web.views.models.schedule.AddScheduleControllerModel;
+import softuni.webproject.web.views.models.schedule.AddTreatmentControllerModel;
+import softuni.webproject.web.views.models.schedule.ScheduleViewModel;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,6 +56,7 @@ public class DoctorController {
         return modelAndView;
     }
 
+//  -------------------- Medicine --------------------
     @GetMapping("/medicine")
     public ModelAndView getMedicine(ModelAndView modelAndView) {
         List<MedicineViewModel> model = medicineService.getAll()
@@ -80,7 +84,9 @@ public class DoctorController {
 
         return "redirect:/doctor/medicine";
     }
+//  -------------------- End Medicine --------------------
 
+//  -------------------- Schedule --------------------
     @GetMapping("/schedule")
     public ModelAndView getSchedule(ModelAndView modelAndView) {
         List<ScheduleViewModel> model =  scheduleService.getAll()
@@ -92,21 +98,47 @@ public class DoctorController {
         return modelAndView;
     }
 
+
     @ModelAttribute("addSchedule")
     public AddScheduleControllerModel addSchedule(){
         return new AddScheduleControllerModel();
     }
 
     @PostMapping("/schedule")
-    public String addSchedule(@ModelAttribute("addSchedule")AddScheduleControllerModel model, BindingResult bindingResult){
+    public String addSchedule(@ModelAttribute("addSchedule")AddScheduleControllerModel model, BindingResult bindingResult, HttpSession session){
         if (bindingResult.hasErrors()){
             return "/doctor/schedule";
         }
+        session.setAttribute("animalName", model.getAnimal());
         ScheduleServiceModel scheduleServiceModel = modelMapper.map(model, ScheduleServiceModel.class);
         scheduleService.save(scheduleServiceModel);
 
         return "redirect:/doctor/schedule";
     }
+//  -------------------- End Schedule --------------------
+
+//  -------------------- Treatment --------------------
+    @GetMapping("/add-treatment")
+    public String getSchedule() {
+        return "/doctor/add-treatment.html";
+    }
+
+    @ModelAttribute("treatmentAdd")
+    public AddTreatmentControllerModel treatmentAdd(){
+        return new AddTreatmentControllerModel();
+    }
+
+    @PostMapping("/add-treatment")
+    public String addTreatment(@Valid @ModelAttribute AddTreatmentControllerModel addTreatment, BindingResult bindingResult, HttpSession session){
+        if (bindingResult.hasErrors()){
+            return "/doctor/add-treatment";
+        }
+        String animalName = session.getAttribute("animalName").toString();
+        TreatmentServiceModel treatment = modelMapper.map(addTreatment, TreatmentServiceModel.class);
+        animalService.addMedicineDisease(animalName, treatment.getMedicine(), treatment.getDisease());
+        return "redirect:/doctor/schedule";
+    }
+//  -------------------- End Treatment --------------------
 
     private CurrentUser getCurrentUser(HttpSession session) {
         return (CurrentUser) session.getAttribute("username");

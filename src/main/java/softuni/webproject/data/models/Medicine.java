@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -26,6 +23,8 @@ public class Medicine extends BaseEntity {
     @NotNull
     @NotEmpty
     private String description;
-    @ManyToMany(mappedBy = "medicines")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "medicines_animals", joinColumns = {@JoinColumn(name = "medicine_id")},
+            inverseJoinColumns = {@JoinColumn(name = "animal_id")})
     private List<Animal> animals;
 }

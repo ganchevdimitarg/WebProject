@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 @ResponseStatus(value = HttpStatus.IM_USED, reason = "Not found")
-public class LogInHandleException extends RuntimeException {
+public class LogInHandleException extends IllegalAccessException {
     public LogInHandleException(String message) {
         super(message);
     }

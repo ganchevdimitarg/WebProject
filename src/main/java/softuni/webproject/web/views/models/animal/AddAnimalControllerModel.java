@@ -1,4 +1,4 @@
-package softuni.webproject.web.models.animal;
+package softuni.webproject.web.views.models.animal;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

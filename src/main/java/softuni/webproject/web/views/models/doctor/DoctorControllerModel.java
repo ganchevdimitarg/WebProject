@@ -1,9 +1,9 @@
-package softuni.webproject.web.models.doctor;
+package softuni.webproject.web.views.models.doctor;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import softuni.webproject.web.models.BaseControllerModel;
+import softuni.webproject.web.views.models.BaseControllerModel;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;

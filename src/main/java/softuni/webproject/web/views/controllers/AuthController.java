@@ -1,4 +1,4 @@
-package softuni.webproject.web.controllers;
+package softuni.webproject.web.views.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,9 @@ import softuni.webproject.services.models.CurrentUser;
 import softuni.webproject.services.models.UserServiceModel;
 import softuni.webproject.services.services.auth.AuthService;
 import softuni.webproject.services.services.doctor.IdentificationKeyService;
-import softuni.webproject.web.models.BaseControllerModel;
-import softuni.webproject.web.models.doctor.DoctorControllerModel;
-import softuni.webproject.web.models.user.UserControllerModel;
+import softuni.webproject.web.views.models.BaseControllerModel;
+import softuni.webproject.web.views.models.doctor.DoctorControllerModel;
+import softuni.webproject.web.views.models.user.UserControllerModel;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;

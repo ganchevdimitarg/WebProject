@@ -14,7 +14,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-3">
-                            Date Review: <input type="text" name="dateReview" id="dateReview" placeholder="16/03/2019 - 16:30"/>
+                            Date Review: <input type="text" name="dateReview" id="dateReview"
+                                                placeholder="16/03/2019 - 16:30"/>
                         </div>
                         <div class="col-md-3">
                             Doctor: <input type="text" name="doctor" id="doctor" placeholder="Ivan Vazov"/>
@@ -28,52 +29,61 @@
                         </div>
                     </div>
                 </div>
-
-        </form>
-    </div>
-
-    <div class="row">
-        <div class="col-md-2">
-            <p>Date</p>
-        </div>
-        <div class="col-md-2">
-            <p>Doctor</p>
-        </div>
-        <div class="col-md-2">
-            <p>Animal</p>
-        </div>
-        <div class="col-md-2">
-            <p>Disease</p>
-        </div>
-        <div class="col-md-2">
-            <p>Completed</p>
+            </form>
         </div>
     </div>
-
-    <th:block th:each="schedule : ${schedules}">
+    <div class="container">
         <div class="row">
             <div class="col-md-2">
-                [[${schedule.dateReview}]]
+                <p>Date</p>
             </div>
             <div class="col-md-2">
-                [[${schedule.doctor}]]
+                <p>Doctor</p>
             </div>
             <div class="col-md-2">
-                [[${schedule.animal}]]
+                <p>Animal</p>
             </div>
-
             <div class="col-md-2">
-                <!--                    <form th:method="post" action="/d">-->
-                <!--                        <input type="checkbox" th:text="${schedule.completed}"/>-->
-                <form:checkbox path="isFinished" value="Completed"/>
-                <!--                    </form>-->
+                <p>Treatment</p>
+            </div>
+            <div class="col-md-2">
+                <p>Completed</p>
             </div>
         </div>
-    </th:block>
+        <th:block th:unless="${schedules == null}">
+            <th:block th:each="schedule : ${schedules}">
+                <div class="row">
+                    <div class="col-md-2">
+                        [[${schedule.dateReview}]]
+                    </div>
+                    <div class="col-md-2">
+                        [[${schedule.doctor}]]
+                    </div>
+                    <div class="col-md-2">
+                        [[${schedule.animal}]]
+                    </div>
+                    <div class="col-md-2">
+                        <a class="btn btn-info" th:href="@{/doctor/add-treatment}">Add Treatment</a>
+                    </div>
+                    <div class="col-md-2">
+                        <form action="/doctor/schedule" th:method="post">
+                            <button type="submit" class="btn btn-danger" th:href="@{/doctor/schedule}">Complete</button>
+                        </form>
+                    </div>
+                </div>
+            </th:block>
+        </th:block>
     </div>
+    <!--    <div id="schedule-table"></div>-->
+    <!--    </div>-->
 </main>
 
 <th:block th:include="~{fragments/footer}"/>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+<script src="/js/schedule-table.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package softuni.webproject.web.models.medicine;
+package softuni.webproject.web.views.models.schedule;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,13 +11,18 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AddMedicineControlModel {
+public class AddScheduleControllerModel {
     @Column(nullable = false)
     @NotNull
     @NotEmpty
-    private String name;
+    private String dateReview;
     @Column(nullable = false)
     @NotNull
     @NotEmpty
-    private String description;
+    private String doctor;
+    @Column(nullable = false)
+    @NotNull
+    @NotEmpty
+    private String animal;
+    private boolean isFinished;
 }

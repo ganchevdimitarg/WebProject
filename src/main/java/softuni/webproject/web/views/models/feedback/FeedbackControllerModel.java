@@ -1,4 +1,4 @@
-package softuni.webproject.web.models.feedback;
+package softuni.webproject.web.views.models.feedback;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -11,24 +11,25 @@ import softuni.webproject.data.repositories.DoctorRepository;
 import softuni.webproject.data.repositories.IdentificationKeyRepository;
 import softuni.webproject.data.repositories.UserRepository;
 import softuni.webproject.services.models.BaseServiceModel;
-import softuni.webproject.services.services.auth.AuthValidationService;
 import softuni.webproject.services.services.auth.HashingService;
 import softuni.webproject.services.services.auth.impl.AuthServiceImpl;
+import softuni.webproject.services.services.auth.impl.AuthValidationServiceImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AuthServiceImplTest {
-    AuthValidationService validation;
+    AuthValidationServiceImpl validation;
     DoctorRepository doctorRepository;
     UserRepository userRepository;
     IdentificationKeyRepository keyRepository;
     HashingService hashingService;
 
     AuthServiceImpl service;
-
+    BaseServiceModel model = new BaseServiceModel();
     @BeforeEach
     void setup(){
-        validation = Mockito.mock(AuthValidationService.class);
+        model = new BaseServiceModel();
+        validation = Mockito.mock(AuthValidationServiceImpl.class);
         doctorRepository = Mockito.mock(DoctorRepository.class);
         userRepository = Mockito.mock(UserRepository.class);
         keyRepository = Mockito.mock(IdentificationKeyRepository.class);
@@ -47,11 +48,10 @@ class AuthServiceImplTest {
     //TODO
     @Test
     void registerUser() throws IllegalAccessException {
-        BaseServiceModel model = new BaseServiceModel();
         model.setUsername("ivan");
         model.setPassword("123456q");
 
-        Mockito.when(validation.isValid(model)).thenReturn(true);
+
 
         User user = new User();
         user.setUsername("ivan");
@@ -59,7 +59,7 @@ class AuthServiceImplTest {
 
         Mockito.when(userRepository.saveAndFlush(user)).thenReturn(user);
 
-        assertEquals(model.getUsername(), user.getUsername());
+        assertEquals(model.getUsername(), userRepository.findByUsername(user.getUsername()).toString());
     }
 
     @Test

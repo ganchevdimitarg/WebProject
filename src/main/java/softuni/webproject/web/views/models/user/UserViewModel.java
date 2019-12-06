@@ -1,4 +1,4 @@
-package softuni.webproject.web.models.user;
+package softuni.webproject.web.views.models.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

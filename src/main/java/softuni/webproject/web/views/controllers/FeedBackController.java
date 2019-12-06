@@ -1,4 +1,4 @@
-package softuni.webproject.web.controllers;
+package softuni.webproject.web.views.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import softuni.webproject.config.EmailConfiguration;
 import softuni.webproject.services.models.FeedbackServiceModel;
 import softuni.webproject.services.services.feedback.FeedbackService;
-import softuni.webproject.web.models.feedback.FeedbackControllerModel;
+import softuni.webproject.web.views.models.feedback.FeedbackControllerModel;
 
 import javax.validation.ValidationException;
 

@@ -9,7 +9,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,15 +36,8 @@ public class Animal extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
-    @ManyToMany
-    @JoinTable(name = "animal_medicine", joinColumns = {@JoinColumn(name = "animal_id")},
-            inverseJoinColumns = {@JoinColumn(name = "medicine_id")})
+    @ManyToMany(mappedBy = "animals", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Medicine> medicines;
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Schedule> schedules;
-
-    public Animal() {
-        medicines = new ArrayList<>();
-        schedules = new ArrayList<>();
-    }
 }
