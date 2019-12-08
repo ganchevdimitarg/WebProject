@@ -11,6 +11,7 @@ import softuni.webproject.services.models.MedicineServiceModel;
 import softuni.webproject.services.models.ScheduleServiceModel;
 import softuni.webproject.services.models.TreatmentServiceModel;
 import softuni.webproject.services.services.animal.AnimalService;
+import softuni.webproject.services.services.cloudinary.CloudinaryService;
 import softuni.webproject.services.services.doctor.DoctorService;
 import softuni.webproject.services.services.medicine.MedicineService;
 import softuni.webproject.services.services.schedule.ScheduleService;
@@ -23,6 +24,7 @@ import softuni.webproject.web.views.models.schedule.ScheduleViewModel;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +36,7 @@ public class DoctorController {
     private final AnimalService animalService;
     private final MedicineService medicineService;
     private final ScheduleService scheduleService;
+    private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
 
     @GetMapping("/doctor-home")
@@ -63,12 +66,13 @@ public class DoctorController {
     }
 
     @PostMapping("/medicine")
-    public String addMedicine(@ModelAttribute("addNewMedicine")AddMedicineControlModel model, BindingResult bindingResult){
+    public String addMedicine(@ModelAttribute("addNewMedicine")AddMedicineControlModel model, BindingResult bindingResult) throws IOException {
         if (bindingResult.hasErrors()){
             return "/doctor/medicine";
         }
 
         MedicineServiceModel serviceModel = modelMapper.map(model, MedicineServiceModel.class);
+        serviceModel.setImageUrl(cloudinaryService.upload(model.getImage()));
         medicineService.save(serviceModel);
 
         return "redirect:/doctor/medicine";

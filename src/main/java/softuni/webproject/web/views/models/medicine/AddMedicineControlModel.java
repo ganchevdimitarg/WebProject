@@ -3,6 +3,7 @@ package softuni.webproject.web.views.models.medicine;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
@@ -20,4 +21,6 @@ public class AddMedicineControlModel {
     @NotNull
     @NotEmpty
     private String description;
+
+    private MultipartFile image;
 }

@@ -103,6 +103,14 @@
             <version>1.6.0</version>
         </dependency>
 
+        <!-- Cloudinary -->
+        <!-- https://mvnrepository.com/artifact/com.cloudinary/cloudinary -->
+        <dependency>
+            <groupId>com.cloudinary</groupId>
+            <artifactId>cloudinary</artifactId>
+            <version>1.0.14</version>
+        </dependency>
+
     </dependencies>
 
     <build>

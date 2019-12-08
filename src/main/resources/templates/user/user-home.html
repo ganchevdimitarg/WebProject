@@ -11,9 +11,9 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-6"><img
-                    src="https://adayinthelifeimages.com/wp-content/uploads/2016/05/brisbane-headshots-commercial-photography-09.jpg"
-                    alt=""></div>
+            <div class="col-md-6">
+                <img th:src="${user.imageUrl}" alt="user-image">
+            </div>
             <div class="col-md-6">
                 <h4>Name: [[${user.name}]]</h4>
                 <h4>Email: [[${user.email}]]</h4>
@@ -34,7 +34,7 @@
             <div class="col-md-6"></div>
             <div class="col-md-6">
                 <form th:method="post" th:action="@{/user/user-home}" class="regis ter-form" name="update-user"
-                      target="_self">
+                      target="_self" >
                     <div class="form-group">
                         <label for="email"><i class="zmdi zmdi-email"></i></label>
                         <input type="email" name="email" id="email" placeholder="Your Email - lorem@abv.bg"/>

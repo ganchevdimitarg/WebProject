@@ -2,10 +2,7 @@ package softuni.webproject.services.services.user;
 
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.ModelAndView;
 import softuni.webproject.data.models.Animal;
 import softuni.webproject.data.models.User;
 import softuni.webproject.data.repositories.AnimalRepository;
@@ -72,12 +69,5 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ModelAndView handleException(UserNotFoundException exception) {
-        ModelAndView modelAndView = new ModelAndView("error");
-        modelAndView.addObject("message", exception.getMessage());
-        modelAndView.setStatus(HttpStatus.NOT_FOUND);
 
-        return modelAndView;
-    }
 }

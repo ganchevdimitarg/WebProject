@@ -19,10 +19,15 @@ public class Medicine extends BaseEntity {
     @NotNull
     @NotEmpty
     private String name;
+
     @Column(nullable = false)
     @NotNull
     @NotEmpty
     private String description;
+
     @ManyToMany(mappedBy = "medicines")
     private List<Animal> animals;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 }

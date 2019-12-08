@@ -12,6 +12,8 @@ import softuni.webproject.services.services.auth.HashingService;
 import softuni.webproject.services.services.doctor.DoctorService;
 import softuni.webproject.services.services.doctor.IdentificationKeyService;
 
+import java.util.ArrayList;
+
 @Service
 @AllArgsConstructor
 public class DoctorServiceImpl implements DoctorService {
@@ -28,6 +30,8 @@ public class DoctorServiceImpl implements DoctorService {
             Doctor doctor = modelMapper.map(model, Doctor.class);
             doctor.setPassword(hashingService.hash(doctor.getPassword()));
             doctor.setLogInKey(key);
+            doctor.setAnimals(new ArrayList<>());
+            doctor.setSchedules(new ArrayList<>());
             key.setFree(false);
             keyRepository.saveAndFlush(key);
             doctorRepository.saveAndFlush(doctor);

@@ -217,6 +217,9 @@ $(function () {
             logInKey: {
                 required: true,
                 minlength: 6
+            },
+            imageUrl: {
+                required: true
             }
         },
         // Specify validation error messages
@@ -252,6 +255,9 @@ $(function () {
             logInKey: {
                 required: "Please provide a key",
                 minlength: "Your password must be at least 6 characters long"
+            },
+            imageUrl: {
+                required: "You must choose photo"
             }
         },
         // Make sure the form is submitted to the destination defined
@@ -311,6 +317,9 @@ $(function () {
                 required: true,
                 minlength: 6,
                 maxlength: 20
+            },
+            imageUrl: {
+                required: true
             }
         },
         // Specify validation error messages
@@ -347,6 +356,9 @@ $(function () {
                 required: "Please enter your phone number.",
                 minlength: "Your password must be at least 3 characters long",
                 maxlength: "Your password must be at maximum 20 characters long"
+            },
+            imageUrl: {
+                required: "You must choose photo"
             }
         },
         // Make sure the form is submitted to the destination defined
@@ -466,7 +478,7 @@ $(function () {
     });
 });
 
-//validation add schedule form
+//validation add medicine form
 $(function () {
     // Initialize form validation on the registration form.
     // It has the name attribute "registration"
@@ -481,6 +493,9 @@ $(function () {
             },
             description: {
                 required: true
+            },
+            imageUrl: {
+                required: true
             }
         },
         // Specify validation error messages
@@ -490,6 +505,9 @@ $(function () {
             },
             description: {
                 required: "Please enter description.",
+            },
+            imageUrl: {
+                required: "You must choose photo"
             }
         },
         // Make sure the form is submitted to the destination defined

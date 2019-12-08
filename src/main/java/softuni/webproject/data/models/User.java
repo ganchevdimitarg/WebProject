@@ -51,4 +51,7 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Animal> animals;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 }

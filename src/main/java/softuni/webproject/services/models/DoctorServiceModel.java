@@ -14,4 +14,5 @@ public class DoctorServiceModel extends BaseServiceModel {
     private String specialization;
     private String description;
     private String logInKey;
+    private String imageUrl;
 }

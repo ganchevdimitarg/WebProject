@@ -12,18 +12,32 @@
     </br>
     <div class="container">
         <div class="row">
-            <form th:method="post" th:action="@{/doctor/medicine}" class="col-md-12 regis ter-form" name="medicine">
+            <form th:method="post" th:action="@{/doctor/medicine}" class="col-md-12 regis ter-form" name="medicine"
+                  enctype="multipart/form-data">
                 <div class="container">
                     <div class="row">
-                        <label for="name" class="col-md-3">Medicine's Name: </label>
-                        <input type="text" class="col-md-3" name="name" id="name"
-                               placeholder="Medicine Name - Ambrozia"/>
-                        <label for="description" class="col-md-3">Medicine's description: </label>
-                        <input type="text" class="col-md-3" name="description" id="description"
-                               placeholder="Medicine Description"/>
+                        <div class=" form-group">
+                            <label for="photo"><i class="zmdi zmdi-image"></i></label>
+                            <span>Choose photo (max size 500x500, 36KB): </span>
+                            <input type="file" name="image" id="photo"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="name"></label>
+                            <span>Medicine's Name: </span>
+                            <input type="text" name="name" id="name"
+                                   placeholder="Ambrozia"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="description"></label>
+                            <span>Medicine's description: </span>
+                            <input type="text" name="description" id="description"
+                                   placeholder="Quick action"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="signup" id="signup" class="form-submit"
+                                   value="Add Medicine"/>
+                        </div>
                     </div>
-                    <input type="submit" name="signup" id="signup" class="form-submit"
-                           value="Add Medicine"/>
                 </div>
             </form>
         </div>
@@ -31,8 +45,7 @@
             <th:block th:each="medicine : ${medicines}">
                 <div class="row">
                     <div class="col-md-6">
-                        <img src="https://images-i.jpimedia.uk/imagefetch/https://inews.co.uk/wp-content/uploads/2019/08/GettyImages-1026417518.jpg?crop=61:45,smart&width=280"
-                             alt="Arnica">
+                        <img th:src="${medicine.imageUrl}" alt="doctor-image">
                     </div>
                     <div class="col-md-6">
                         <h4>Name: [[${medicine.name}]]</h4>

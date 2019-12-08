@@ -11,4 +11,5 @@ public class DoctorViewModel {
     private String name;
     private String specialization;
     private String description;
+    private String imageUrl;
 }

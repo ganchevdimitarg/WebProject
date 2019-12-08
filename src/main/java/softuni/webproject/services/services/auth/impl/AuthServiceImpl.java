@@ -1,14 +1,9 @@
 package softuni.webproject.services.services.auth.impl;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.ModelAndView;
 import softuni.webproject.data.repositories.IdentificationKeyRepository;
-import softuni.webproject.errors.DoctorNotFoundException;
 import softuni.webproject.errors.LogInHandleException;
-import softuni.webproject.errors.UserNotFoundException;
 import softuni.webproject.services.models.BaseServiceModel;
 import softuni.webproject.services.models.CurrentUser;
 import softuni.webproject.services.models.DoctorServiceModel;
@@ -61,15 +56,6 @@ public class AuthServiceImpl implements AuthService {
         } catch (Exception e) {
             throw new LogInHandleException("Not found user! Try again");
         }
-    }
-
-    @ExceptionHandler({UserNotFoundException.class, DoctorNotFoundException.class, LogInHandleException.class})
-    public ModelAndView handleException(Throwable exception) {
-        ModelAndView modelAndView = new ModelAndView("error");
-        modelAndView.addObject("message", exception.getMessage());
-        modelAndView.setStatus(HttpStatus.NOT_FOUND);
-
-        return modelAndView;
     }
 
 }

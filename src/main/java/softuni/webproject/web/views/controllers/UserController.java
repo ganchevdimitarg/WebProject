@@ -2,10 +2,13 @@ package softuni.webproject.web.views.controllers;
 
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import softuni.webproject.errors.AnimalErrorHandlerException;
+import softuni.webproject.errors.UserNotFoundException;
 import softuni.webproject.services.models.AnimalServiceModel;
 import softuni.webproject.services.models.CurrentUser;
 import softuni.webproject.services.models.UserServiceModel;
@@ -46,7 +49,9 @@ public class UserController {
     @PostMapping("/user-home")
     public ModelAndView update(@Valid @ModelAttribute("updateUserInfo") UserUpdateControllerModel user, ModelAndView modelAndView, HttpSession session){
         UserServiceModel model = modelMapper.map(user, UserServiceModel.class);
-        userService.update(model);
+        userService.update(model
+
+        );
           return this.getUserHome(modelAndView, session);
     }
 
@@ -111,5 +116,14 @@ public class UserController {
 
     private CurrentUser getCurrentUser(HttpSession session) {
         return (CurrentUser) session.getAttribute("username");
+    }
+
+    @ExceptionHandler({AnimalErrorHandlerException.class, UserNotFoundException.class})
+    public ModelAndView handleException(Throwable exception) {
+        ModelAndView modelAndView = new ModelAndView("error");
+        modelAndView.addObject("message", exception.getMessage());
+        modelAndView.setStatus(HttpStatus.NOT_FOUND);
+
+        return modelAndView;
     }
 }

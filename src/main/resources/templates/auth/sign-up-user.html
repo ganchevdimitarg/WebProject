@@ -12,7 +12,12 @@
             <div class="signup-content">
                 <div class="signup-form">
                     <h2 class="form-title">Sign up like a patient</h2>
-                    <form th:method="post" th:action="@{/sign-up-user}" class="regis ter-form" name="register-form-user">
+                    <form th:method="post" th:action="@{/sign-up-user}" class="regis ter-form" name="register-form-user"  enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="photo"><i class="zmdi zmdi-image"></i></label>
+                            <span>Choose photo (max size 500x500, 36KB): </span>
+                            <input type="file" name="image" id="photo"/>
+                        </div>
                         <div class="form-group">
                             <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
                             <input type="text" name="username" id="username" placeholder="Your Username - ivanvazov"/>

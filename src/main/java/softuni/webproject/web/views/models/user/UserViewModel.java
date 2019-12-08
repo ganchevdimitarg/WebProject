@@ -13,4 +13,5 @@ public class UserViewModel {
     private String email;
     private String address;
     private String phoneNumber;
+    private String imageUrl;
 }

@@ -37,7 +37,7 @@ class AuthServiceImplTest extends TestBase {
         IdentificationKey key = new IdentificationKey();
         key.setLogKey(keyName);
         DoctorServiceModel doctorServiceModel = new DoctorServiceModel("Dimitar", "vet",
-                "The best", key.getLogKey());
+                "The best", key.getLogKey(), "");
         doctorServiceModel.setPassword("11111q");
         Mockito.when(keyRepository.findByLogKey(keyName)).thenReturn(key);
         Mockito.when(validation.isValid(doctorServiceModel)).thenReturn(true);
@@ -54,7 +54,7 @@ class AuthServiceImplTest extends TestBase {
     @Test
     void registerUser_whenUserIsValid_shouldPast() throws IllegalAccessException {
         UserServiceModel userServiceModel = new UserServiceModel("Dimitar", "dimitar@gmail.com",
-                "Vladislav Varnenchik", "0888888888");
+                "Vladislav Varnenchik", "0888888888", "");
 
         Mockito.when(validation.isValid(userServiceModel)).thenReturn(true);
 
