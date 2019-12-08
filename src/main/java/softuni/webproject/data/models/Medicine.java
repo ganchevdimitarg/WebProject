@@ -23,8 +23,6 @@ public class Medicine extends BaseEntity {
     @NotNull
     @NotEmpty
     private String description;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "medicines_animals", joinColumns = {@JoinColumn(name = "medicine_id")},
-            inverseJoinColumns = {@JoinColumn(name = "animal_id")})
+    @ManyToMany(mappedBy = "medicines")
     private List<Animal> animals;
 }

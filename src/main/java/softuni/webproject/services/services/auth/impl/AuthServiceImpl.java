@@ -1,59 +1,41 @@
 package softuni.webproject.services.services.auth.impl;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import softuni.webproject.data.models.Doctor;
-import softuni.webproject.data.models.IdentificationKey;
-import softuni.webproject.data.models.User;
-import softuni.webproject.data.repositories.DoctorRepository;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 import softuni.webproject.data.repositories.IdentificationKeyRepository;
-import softuni.webproject.data.repositories.UserRepository;
+import softuni.webproject.errors.DoctorNotFoundException;
+import softuni.webproject.errors.LogInHandleException;
+import softuni.webproject.errors.UserNotFoundException;
 import softuni.webproject.services.models.BaseServiceModel;
-import softuni.webproject.services.models.DoctorServiceModel;
 import softuni.webproject.services.models.CurrentUser;
+import softuni.webproject.services.models.DoctorServiceModel;
 import softuni.webproject.services.models.UserServiceModel;
 import softuni.webproject.services.services.auth.AuthService;
 import softuni.webproject.services.services.auth.AuthValidationService;
 import softuni.webproject.services.services.auth.HashingService;
+import softuni.webproject.services.services.doctor.DoctorService;
+import softuni.webproject.services.services.doctor.IdentificationKeyService;
+import softuni.webproject.services.services.user.UserService;
 
 @Service
+@AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final AuthValidationService validation;
-    private final DoctorRepository doctorRepository;
-    private final UserRepository userRepository;
+    private final DoctorService doctorService;
+    private final UserService userService;
+    private final IdentificationKeyService keyService;
     private final IdentificationKeyRepository keyRepository;
-    private final ModelMapper modelMapper;
     private final HashingService hashingService;
-
-    @Autowired
-    public AuthServiceImpl(AuthValidationService validation,
-                           DoctorRepository doctorRepository,
-                           UserRepository userRepository,
-                           IdentificationKeyRepository keyRepository, ModelMapper modelMapper,
-                           HashingService hashingService) {
-        this.validation = validation;
-        this.doctorRepository = doctorRepository;
-        this.userRepository = userRepository;
-        this.keyRepository = keyRepository;
-        this.modelMapper = modelMapper;
-        this.hashingService = hashingService;
-    }
 
     @Override
     public void registerDoctor(DoctorServiceModel model) throws IllegalAccessException {
         if (!validation.isValid(model)) {
             return;
         }
-        IdentificationKey key = keyRepository.findByLogKey(model.getLogInKey());
-        if (key != null) {
-            Doctor doctor = modelMapper.map(model, Doctor.class);
-            doctor.setPassword(hashingService.hash(doctor.getPassword()));
-            doctor.setLogInKey(key);
-            doctorRepository.save(doctor);
-            key.setFree(false);
-            keyRepository.saveAndFlush(key);
-        }
+        doctorService.createDoctor(model);
     }
 
     @Override
@@ -61,22 +43,33 @@ public class AuthServiceImpl implements AuthService {
         if (!validation.isValid(model)) {
             return;
         }
-        User user = modelMapper.map(model, User.class);
-        user.setPassword(hashingService.hash(user.getPassword()));
-        userRepository.saveAndFlush(user);
+        model.setPassword(hashingService.hash(model.getPassword()));
+        userService.save(model);
     }
 
     @Override
-    public CurrentUser logIn(BaseServiceModel model) {
+    public CurrentUser logIn(BaseServiceModel model) throws LogInHandleException {
         String pass = hashingService.hash(model.getPassword());
-        User user = userRepository.findByUsernameAndPassword(model.getUsername(), pass);
-        if (keyRepository.findByLogKey(model.getLogInKey()) != null) {
-            Doctor doctor = doctorRepository.findByUsernameAndPassword(model.getUsername(), pass);
-            return new CurrentUser(doctor.getUsername());
+        try {
+            if (!model.getLogInKey().isEmpty()) {
+                DoctorServiceModel doctor = doctorService.findByUsernameAndPassword(model.getUsername(), pass);
+                return new CurrentUser(doctor.getUsername());
+            }
+
+            UserServiceModel user = userService.findByUsernameAndPassword(model.getUsername(), pass);
+            return new CurrentUser(user.getUsername());
+        } catch (Exception e) {
+            throw new LogInHandleException("Not found user! Try again");
         }
-        return new CurrentUser(user.getUsername());
     }
 
+    @ExceptionHandler({UserNotFoundException.class, DoctorNotFoundException.class, LogInHandleException.class})
+    public ModelAndView handleException(Throwable exception) {
+        ModelAndView modelAndView = new ModelAndView("error");
+        modelAndView.addObject("message", exception.getMessage());
+        modelAndView.setStatus(HttpStatus.NOT_FOUND);
 
+        return modelAndView;
+    }
 
 }

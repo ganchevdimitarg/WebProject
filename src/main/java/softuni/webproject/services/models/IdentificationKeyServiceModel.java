@@ -7,8 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ScheduleServiceModel {
-    private String dateReview;
-    private String doctor;
-    private String animal;
+public class IdentificationKeyServiceModel {
+    private String logKey;
+    private boolean isFree;
 }

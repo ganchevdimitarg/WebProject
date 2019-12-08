@@ -17,8 +17,10 @@ public class UserUpdateControllerModel {
     @Pattern(regexp = EMAIL_VALIDATE)
     @NotEmpty
     private String email;
+
     @NotEmpty
     private String address;
+
     @Pattern(regexp = PHONE_NUMBER_VALIDATE)
     @NotEmpty
     private String phoneNumber;

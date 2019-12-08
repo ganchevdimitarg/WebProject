@@ -24,7 +24,7 @@
                 <p>Disease</p>
             </div>
             <div class="col-md-2">
-                <p>Remove</p>
+                <p>Doctor</p>
             </div>
         </div>
         <th:block th:each="animal : ${animals}">
@@ -41,13 +41,20 @@
                 <div class="col-md-2">
                     [[${animal.disease}]]
                 </div>
-<!--                TODO-->
-<!--                <div class="col-md-2">-->
-<!--                    <form th:action="@{/user/user-home/delete-pet}" method="post">-->
-<!--                        <input type="submit" value="Delete" class="btn btn-danger" />-->
-<!--                        <input type="hidden" name="animal" th:id="${animal.id}">-->
-<!--                    </form>-->
-<!--                </div>-->
+                <th:block th:if="${animal.doctor == null}">
+                    <div class="col-md-2">
+                    </div>
+                </th:block>
+                <th:block th:unless="${animal.doctor == null}">
+                    <div class="col-md-2">
+                        [[${animal.doctor.getName()}]]
+                    </div>
+                </th:block>
+                <div class="col-md-2">
+                    <form th:action="@{'/user/pet/delete/' + ${animal.getName()}}" method="post">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
             </div>
         </th:block>
     </div>

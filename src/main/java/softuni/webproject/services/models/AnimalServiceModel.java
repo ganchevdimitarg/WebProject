@@ -3,6 +3,7 @@ package softuni.webproject.services.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import softuni.webproject.data.models.Doctor;
 
 @Getter
 @Setter
@@ -10,8 +11,8 @@ import lombok.Setter;
 public class AnimalServiceModel {
     private String breed;
     private String name;
-    private Integer age;
-    private String doctor;
+    private double age;
+    private Doctor doctor;
     private String disease;
     private String medicine;
     private String user;

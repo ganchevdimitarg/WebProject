@@ -1,5 +1,6 @@
 package softuni.webproject.services.services.auth;
 
+import softuni.webproject.errors.LogInHandleException;
 import softuni.webproject.services.models.BaseServiceModel;
 import softuni.webproject.services.models.DoctorServiceModel;
 import softuni.webproject.services.models.CurrentUser;
@@ -10,7 +11,7 @@ public interface AuthService {
 
     void registerUser(UserServiceModel model) throws IllegalAccessException;
 
-    CurrentUser logIn(BaseServiceModel model);
+    CurrentUser logIn(BaseServiceModel model) throws LogInHandleException;
 
 
 }

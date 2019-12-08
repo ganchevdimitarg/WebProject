@@ -1,7 +1,7 @@
 package softuni.webproject.web.views.controllers;
 
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -23,17 +23,11 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
+@AllArgsConstructor
 public class UserController {
     private final UserService userService;
     private final AnimalService animalService;
     private final ModelMapper modelMapper;
-
-    @Autowired
-    public UserController(UserService userService, AnimalService animalService, ModelMapper modelMapper) {
-        this.userService = userService;
-        this.animalService = animalService;
-        this.modelMapper = modelMapper;
-    }
 
     @GetMapping("/user-home")
     public ModelAndView getUserHome(ModelAndView modelAndView, HttpSession session) {
@@ -50,9 +44,10 @@ public class UserController {
     }
 
     @PostMapping("/user-home")
-    public void update(@Valid @ModelAttribute("updateUserInfo") UserUpdateControllerModel user, HttpSession session){
+    public ModelAndView update(@Valid @ModelAttribute("updateUserInfo") UserUpdateControllerModel user, ModelAndView modelAndView, HttpSession session){
         UserServiceModel model = modelMapper.map(user, UserServiceModel.class);
         userService.update(model);
+          return this.getUserHome(modelAndView, session);
     }
 
     @PostMapping("/user-home/delete")
@@ -64,14 +59,15 @@ public class UserController {
         return "redirect:/";
     }
 
-//    TODO
-//    @PostMapping("/user-home/delete-pet")
-//    public String deletePet(@ModelAttribute("animal") String id, HttpSession session) {
-//        LogInServiceModel logInServiceModel = getCurrentUser(session);
-//        userService.deletePet(logInServiceModel.getUsername(), id);
-//
-//        return "redirect:/user/pet";
-//    }
+
+//  Animal
+    @PostMapping("/pet/delete/{name}")
+    public String deletePet(@PathVariable("name") String name, HttpSession session) {
+        CurrentUser currentUser = getCurrentUser(session);
+        userService.deletePet(name, currentUser);
+
+        return "redirect:/user/pet";
+    }
 
     @GetMapping("/add-pet")
     public String getAddPet() {
@@ -104,7 +100,7 @@ public class UserController {
                 .map(s -> modelMapper.map(s, AnimalViewModel.class))
                 .collect(Collectors.toList());
         modelAndView.addObject("animals", animals);
-        modelAndView.setViewName("user/pet.html");
+        modelAndView.setViewName("user/pet");
         return modelAndView;
     }
 

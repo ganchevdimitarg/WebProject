@@ -18,11 +18,14 @@ public class UserControllerModel extends BaseControllerModel {
     @NotEmpty
     @Size(min = 3, max = 20, message = INVALID_TEXT_LENGTH_MASSAGE)
     private String name;
+
     @Pattern(regexp = EMAIL_VALIDATE)
     @NotEmpty
     private String email;
+
     @NotEmpty
     private String address;
+
     @Pattern(regexp = PHONE_NUMBER_VALIDATE)
     @NotEmpty
     private String phoneNumber;

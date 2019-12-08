@@ -1,22 +1,30 @@
 package softuni.webproject.services.services.doctor.impl;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import softuni.webproject.data.models.IdentificationKey;
 import softuni.webproject.data.repositories.DoctorRepository;
 import softuni.webproject.data.repositories.IdentificationKeyRepository;
+import softuni.webproject.services.models.IdentificationKeyServiceModel;
 import softuni.webproject.services.services.doctor.IdentificationKeyService;
 
 @Service
+@AllArgsConstructor
 public class IdentificationKeyServiceImpl implements IdentificationKeyService {
     private final IdentificationKeyRepository keyRepository;
     private final DoctorRepository doctorRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    public IdentificationKeyServiceImpl(IdentificationKeyRepository keyRepository, DoctorRepository doctorRepository) {
-        this.keyRepository = keyRepository;
-        this.doctorRepository = doctorRepository;
+    @Override
+    public void save(IdentificationKeyServiceModel key) {
+        keyRepository.saveAndFlush(modelMapper.map(key, IdentificationKey.class));
+    }
+
+    @Override
+    public IdentificationKeyServiceModel findByKeyName(String keyName) {
+        return modelMapper.map(keyRepository.findByLogKey(keyName), IdentificationKeyServiceModel.class);
     }
 
     @Override

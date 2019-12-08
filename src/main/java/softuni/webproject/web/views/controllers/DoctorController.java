@@ -1,13 +1,10 @@
 package softuni.webproject.web.views.controllers;
 
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.webproject.services.models.CurrentUser;
 import softuni.webproject.services.models.MedicineServiceModel;
@@ -31,21 +28,13 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/doctor")
+@AllArgsConstructor
 public class DoctorController {
     private final DoctorService doctorService;
     private final AnimalService animalService;
     private final MedicineService medicineService;
     private final ScheduleService scheduleService;
     private final ModelMapper modelMapper;
-
-    @Autowired
-    public DoctorController(DoctorService doctorService, AnimalService animalService, MedicineService medicineService, ScheduleService scheduleService, ModelMapper modelMapper) {
-        this.doctorService = doctorService;
-        this.animalService = animalService;
-        this.medicineService = medicineService;
-        this.scheduleService = scheduleService;
-        this.modelMapper = modelMapper;
-    }
 
     @GetMapping("/doctor-home")
     public ModelAndView getDoctorHome(ModelAndView modelAndView, HttpSession session) {
@@ -118,8 +107,9 @@ public class DoctorController {
 //  -------------------- End Schedule --------------------
 
 //  -------------------- Treatment --------------------
-    @GetMapping("/add-treatment")
-    public String getSchedule() {
+    @GetMapping("/add-treatment/{animalName}")
+    public String getSchedule(@PathVariable("animalName") String animalName, HttpSession session) {
+        session.setAttribute("animalName", animalName);
         return "/doctor/add-treatment.html";
     }
 
@@ -129,7 +119,7 @@ public class DoctorController {
     }
 
     @PostMapping("/add-treatment")
-    public String addTreatment(@Valid @ModelAttribute AddTreatmentControllerModel addTreatment, BindingResult bindingResult, HttpSession session){
+    public String addTreatment(@Valid @ModelAttribute AddTreatmentControllerModel addTreatment, BindingResult bindingResult, HttpSession session) throws IllegalAccessException {
         if (bindingResult.hasErrors()){
             return "/doctor/add-treatment";
         }
@@ -139,6 +129,13 @@ public class DoctorController {
         return "redirect:/doctor/schedule";
     }
 //  -------------------- End Treatment --------------------
+
+    @PostMapping("/schedule/delete/{date}")
+    public String finished(@PathVariable("date") String date) {
+        scheduleService.deleteScheduleByDateReview(date);
+
+        return "redirect:/doctor/schedule";
+    }
 
     private CurrentUser getCurrentUser(HttpSession session) {
         return (CurrentUser) session.getAttribute("username");

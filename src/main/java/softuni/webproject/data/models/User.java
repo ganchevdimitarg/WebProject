@@ -23,26 +23,32 @@ public class User extends BaseEntity {
     @NotEmpty
     @Size(min = 3, max = 20, message = INVALID_TEXT_LENGTH_MASSAGE)
     private String username;
+
     @Column(nullable = false, unique = true)
     @NotEmpty
     @Pattern(regexp = PASSWORD_VALIDATE)
     private String password;
+
     @Column(nullable = false)
     @NotEmpty
     @Size(min = 3, max = 20, message = INVALID_TEXT_LENGTH_MASSAGE)
     private String name;
-    @Column(nullable = false, unique = true)
+
+    @Column(nullable = false)
     @NotEmpty
     @Email
     @Pattern(regexp = EMAIL_VALIDATE)
     private String email;
+
     @Column(nullable = false)
     @NotEmpty
     private String address;
+
     @Column(name = "phone_number",nullable = false)
     @NotEmpty
     @Pattern(regexp = PHONE_NUMBER_VALIDATE)
     private String phoneNumber;
+
     @OneToMany(mappedBy = "user")
     private List<Animal> animals;
 }

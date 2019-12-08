@@ -1,7 +1,7 @@
 package softuni.webproject.services.services.medicine;
 
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import softuni.webproject.data.models.Medicine;
 import softuni.webproject.data.repositories.MedicineRepository;
@@ -11,15 +11,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class MedicineServiceImpl implements MedicineService {
     private final MedicineRepository medicineRepository;
     private final ModelMapper modelMapper;
-
-    @Autowired
-    public MedicineServiceImpl(MedicineRepository medicineRepository, ModelMapper modelMapper) {
-        this.medicineRepository = medicineRepository;
-        this.modelMapper = modelMapper;
-    }
 
     @Override
     public void save(MedicineServiceModel model) {

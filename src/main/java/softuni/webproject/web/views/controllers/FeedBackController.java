@@ -1,7 +1,7 @@
 package softuni.webproject.web.views.controllers;
 
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.validation.BindingResult;
@@ -18,17 +18,11 @@ import javax.validation.ValidationException;
 
 @RestController
 @RequestMapping("/user")
+@AllArgsConstructor
 public class FeedBackController {
     private final EmailConfiguration emailCfg;
     private final FeedbackService feedbackService;
     private final ModelMapper modelMapper;
-
-    @Autowired
-    public FeedBackController(EmailConfiguration emailCfg, FeedbackService feedbackService, ModelMapper modelMapper) {
-        this.emailCfg = emailCfg;
-        this.feedbackService = feedbackService;
-        this.modelMapper = modelMapper;
-    }
 
     @PostMapping("/contact")
     public ModelAndView sendFeedback(FeedbackControllerModel feedback, ModelAndView modelAndView, BindingResult bindingResult) {

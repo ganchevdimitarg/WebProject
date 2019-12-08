@@ -18,11 +18,11 @@ import java.util.List;
 public class Animal extends BaseEntity{
     @Column(nullable = false)
     @NotEmpty
-    @Size(min = 3, max = 6)
+    @Size(min = 3, max = 10)
     private String breed;
     @Column(nullable = false, unique = true)
     @NotEmpty
-    @Size(min = 3, max = 6)
+    @Size(min = 3, max = 10)
     private String name;
     @Column(nullable = false)
     @NotNull
@@ -36,7 +36,11 @@ public class Animal extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
-    @ManyToMany(mappedBy = "animals", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinTable(
+            name = "animals_medicines",
+            joinColumns = @JoinColumn(name = "animal_id"),
+            inverseJoinColumns = @JoinColumn(name = "medicine_id"))
     private List<Medicine> medicines;
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Schedule> schedules;

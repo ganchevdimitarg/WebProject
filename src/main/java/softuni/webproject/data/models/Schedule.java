@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "schedule")
@@ -14,9 +14,9 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 public class Schedule extends BaseEntity {
-    @Column(name = "data_of_review", nullable = false)
-    @NotNull
+    @Column(name = "data_of_review", nullable = false, unique = true)
     @NotEmpty
+    @Pattern(regexp = "[0-9.: ]+", message = "Incorrect date")
     private String dateReview;
     @ManyToOne
     @JoinColumn(name = "doctors_id")
@@ -24,5 +24,4 @@ public class Schedule extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "animals_id")
     private Animal animal;
-    private boolean isFinished;
 }

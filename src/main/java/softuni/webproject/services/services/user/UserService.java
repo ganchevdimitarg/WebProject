@@ -1,13 +1,18 @@
 package softuni.webproject.services.services.user;
 
+import softuni.webproject.services.models.CurrentUser;
 import softuni.webproject.services.models.UserServiceModel;
 
 public interface UserService {
-    UserServiceModel findByUsername(String name);
+    void save(UserServiceModel model);
 
     void deleteUser(String username);
 
     void update(UserServiceModel model);
-//    TODO
-//    void deletePet(String username, String animal);
+
+    void deletePet(String name, CurrentUser currentUser);
+
+   UserServiceModel findByUsernameAndPassword(String username, String password);
+
+   UserServiceModel findByUsername(String username);
 }

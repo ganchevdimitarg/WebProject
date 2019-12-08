@@ -1,18 +1,15 @@
 package softuni.webproject.web.views.controllers;
 
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
-import softuni.webproject.errors.LogInHandleException;
 import softuni.webproject.services.models.BaseServiceModel;
-import softuni.webproject.services.models.DoctorServiceModel;
 import softuni.webproject.services.models.CurrentUser;
+import softuni.webproject.services.models.DoctorServiceModel;
 import softuni.webproject.services.models.UserServiceModel;
 import softuni.webproject.services.services.auth.AuthService;
 import softuni.webproject.services.services.doctor.IdentificationKeyService;
@@ -24,17 +21,11 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
+@AllArgsConstructor
 public class AuthController {
     private final AuthService auth;
     private final IdentificationKeyService identificationKeyService;
     private final ModelMapper modelMapper;
-
-    @Autowired
-    public AuthController(AuthService auth, IdentificationKeyService identificationKeyService, ModelMapper modelMapper) {
-        this.auth = auth;
-        this.identificationKeyService = identificationKeyService;
-        this.modelMapper = modelMapper;
-    }
 
     @GetMapping("/sign-in")
     public String getSignIn() {
@@ -99,14 +90,5 @@ public class AuthController {
         auth.registerDoctor(doctorModel);
 
         return "redirect:/sign-in";
-    }
-
-
-    @ExceptionHandler(LogInHandleException.class)
-    public ModelAndView handleException(LogInHandleException ex){
-        ModelAndView modelAndView = new ModelAndView("error");
-        modelAndView.addObject("message", ex.getMessage());
-
-        return modelAndView;
     }
 }

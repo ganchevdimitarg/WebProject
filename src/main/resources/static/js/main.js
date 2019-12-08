@@ -513,7 +513,7 @@ $(function () {
             date: {
                 required: true,
                 minlength: 10,
-                maxlength: 18
+                maxlength: 18,
             },
             doctor: {
                 required: true
@@ -525,7 +525,7 @@ $(function () {
         // Specify validation error messages
         messages: {
             date: {
-                required: "Please enter date.",
+                required: "Please enter date. You can only use . or - between the digits",
             },
             doctor: {
                 required: "Please enter doctor.",
@@ -934,3 +934,15 @@ jQuery(document).ready(function ($) {
     });
 
 })(jQuery); // End of use strict
+
+
+// is finished
+$(document).ready(function () {
+    $(".complete").click(function () {
+        $(".complete").hide();
+        $(".add-treatment").hide();
+    });
+
+
+});
+

@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             Date Review: <input type="text" name="dateReview" id="dateReview"
-                                                placeholder="16/03/2019 - 16:30"/>
+                                                placeholder="16.03.2019 - 16:30"/>
                         </div>
                         <div class="col-md-3">
                             Doctor: <input type="text" name="doctor" id="doctor" placeholder="Ivan Vazov"/>
@@ -63,11 +63,13 @@
                         [[${schedule.animal}]]
                     </div>
                     <div class="col-md-2">
-                        <a class="btn btn-info" th:href="@{/doctor/add-treatment}">Add Treatment</a>
+                        <a class="btn btn-info add-treatment"
+                           th:href="@{'/doctor/add-treatment/' + ${schedule.getAnimal()}}">Add
+                            Treatment</a>
                     </div>
                     <div class="col-md-2">
-                        <form action="/doctor/schedule" th:method="post">
-                            <button type="submit" class="btn btn-danger" th:href="@{/doctor/schedule}">Complete</button>
+                        <form th:method="post" th:action="@{'/doctor/schedule/delete/' + ${schedule.dateReview}}">
+                        <input type="submit" value="Complete" class="btn btn-danger"/>
                         </form>
                     </div>
                 </div>

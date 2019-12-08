@@ -11,5 +11,4 @@ public class ScheduleViewModel {
     private String dateReview;
     private String doctor;
     private String animal;
-    private boolean isFinished;
 }
