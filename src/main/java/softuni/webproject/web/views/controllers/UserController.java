@@ -100,6 +100,7 @@ public class UserController {
     @GetMapping("/pet")
     public ModelAndView getUserAnimals(ModelAndView modelAndView, HttpSession session){
         CurrentUser currentUser = getCurrentUser(session);
+        List<AnimalServiceModel> animal = animalService.getCurrentUserAnimal(currentUser.getUsername());
         List<AnimalViewModel> animals = animalService.getCurrentUserAnimal(currentUser.getUsername())
                 .stream()
                 .map(s -> modelMapper.map(s, AnimalViewModel.class))

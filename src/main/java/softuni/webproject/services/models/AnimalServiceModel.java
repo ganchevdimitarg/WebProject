@@ -14,6 +14,5 @@ public class AnimalServiceModel {
     private double age;
     private Doctor doctor;
     private String disease;
-    private String medicine;
     private String user;
 }

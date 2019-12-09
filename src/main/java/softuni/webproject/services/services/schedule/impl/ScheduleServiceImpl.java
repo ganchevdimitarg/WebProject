@@ -1,6 +1,7 @@
 package softuni.webproject.services.services.schedule.impl;
 
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import softuni.webproject.data.models.Animal;
 import softuni.webproject.data.models.Doctor;
@@ -22,6 +23,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final AnimalRepository animalRepository;
     private final ScheduleRepository scheduleRepository;
     private final ScheduleServiceValidation validation;
+    private final ModelMapper modelMapper;
 
     @Override
     public void save(ScheduleServiceModel model) {
@@ -56,6 +58,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public void deleteScheduleByDateReview(String date) {
         scheduleRepository.deleteScheduleByDateReview(date);
+    }
+
+    @Override
+    public ScheduleServiceModel findByData(String data) {
+        return modelMapper.map(scheduleRepository.findByDateReview(data), ScheduleServiceModel.class);
     }
 
 }

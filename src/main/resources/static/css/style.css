@@ -1285,3 +1285,7 @@ textarea.input1 + .shadow-input1 {
     width: 500px;
     height: 350px;
 }
+
+.table-bordered{
+    margin-top: 100px;
+}

@@ -1,27 +1,28 @@
 const URLS = {
-    items: '/api/schedule',
+    items: 'api/items',
 };
 
-const toString = ({ dateReview, doctor, animal}) => {
+const toString = ({dateReview, doctor, animal}) => {
     let columns = `
- <div class="col-md-2">
- [[${dateReview}]]
- </div>
- <div class="col-md-2">
- [[${doctor}]]
- </div>
- <div class="col-md-2">
- [[${animal}]]
- </div>
+<div class="col-md-2">
+   ${dateReview}
+</div>
+<div class="col-md-2">
+    ${doctor}
+</div>
+<div class="col-md-2">
+    ${animal}
+</div>
+<div class="col-md-2">
+    <a class="btn btn-info add-treatment" href="/doctor/add-treatment/${animal}">Add Treatment</a>
+</div>
+<div class="col-md-2">
+    <form method="post" action="/doctor/schedule/delete/${dateReview}">
+        <input type="submit" value="Complete" class="btn btn-danger"/>
+    </form>
+</div>
 `
-    // columns += finished
-    //     ? '<td></td>'
-    //     : `<td>
-    //         <form class="buy-item-form" data-id=${id} action="/api/items/add-to-user/${id}" method="post">
-    //             <button class="btn btn-info">Buy</button>
-    //         </form>
-    //        </td>`
-    return `<div class="row">${columns}</div>`
+    return `${columns}`
 };
 
 fetch(URLS.items)
@@ -32,33 +33,21 @@ fetch(URLS.items)
             const itemString = toString(item);
             result += itemString;
         });
+        console.log(result);
 
-        $('#items-table').html(result);
+        document.getElementsByClassName('schedule-table').innerHTML = result;
+        // $('.schedule-table').html(result);
     });
 
-// fetch(URLS.schedules)
-//     .then(responses => responses.json())
-// .then(schedules => {
-//     let result = '';
-//
-// schedules.forEach(schedule => {
-//     const scheduleString = toString(schedule);
-// result += scheduleString;
-// });
-//
-// $('#schedule-table').html(result);
-// });
+$('.schedule-table').on('submit', '.delete-schedule', function (ev) {
+    const url = $(this).attr('action');
 
-// $('#schedule-table').on('submit', '.buy-item-form', function (ev) {
-//     const url = $(this).attr('action');
-//
-//     fetch(url, { method: 'post' })
-//         .then(data => {
-//         console.log(data)
-//         loader.hide();
-//     window.location = '/items/merchant';
-// });
-//
-//     ev.preventDefault();
-//     return false;
-// });
+    fetch(url, { method: 'post' })
+        .then(data => {
+        console.log(data)
+        window.location = '/schedule/delete/{date}';
+});
+
+    ev.preventDefault();
+    return false;
+});

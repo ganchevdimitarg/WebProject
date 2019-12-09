@@ -17,7 +17,6 @@
                 <div class="container">
                     <div class="row">
                         <div class=" form-group">
-                            <label for="photo"><i class="zmdi zmdi-image"></i></label>
                             <span>Choose photo (max size 500x500, 36KB): </span>
                             <input type="file" name="image" id="photo"/>
                         </div>
@@ -43,6 +42,7 @@
         </div>
         <th:block th:unless="${medicines == null}">
             <th:block th:each="medicine : ${medicines}">
+<!--                <div class="medicines"></div>-->
                 <div class="row">
                     <div class="col-md-6">
                         <img th:src="${medicine.imageUrl}" alt="doctor-image">
@@ -58,5 +58,11 @@
 </main>
 
 <th:block th:include="~{fragments/footer}"/>
+<<script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src="/js/medicine-table.js"></script>
 </body>
 </html>

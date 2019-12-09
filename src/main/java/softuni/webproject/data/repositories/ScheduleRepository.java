@@ -19,4 +19,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
     @Modifying
     void deleteScheduleByDateReview(String date);
 
+    Schedule findByDateReview(String data);
 }

@@ -48,7 +48,7 @@ public class DoctorController {
         return modelAndView;
     }
 
-//  -------------------- Medicine --------------------
+    //  -------------------- Medicine --------------------
     @GetMapping("/medicine")
     public ModelAndView getMedicine(ModelAndView modelAndView) {
         List<MedicineViewModel> model = medicineService.getAll()
@@ -60,14 +60,19 @@ public class DoctorController {
         return modelAndView;
     }
 
+//    @GetMapping("/medicine")
+//    public String getMedicine() {
+//        return "doctor/medicine.html";
+//    }
+
     @ModelAttribute("addNewMedicine")
     public AddMedicineControlModel addNewMedicine() {
         return new AddMedicineControlModel();
     }
 
     @PostMapping("/medicine")
-    public String addMedicine(@ModelAttribute("addNewMedicine")AddMedicineControlModel model, BindingResult bindingResult) throws IOException {
-        if (bindingResult.hasErrors()){
+    public String addMedicine(@ModelAttribute("addNewMedicine") AddMedicineControlModel model, BindingResult bindingResult) throws IOException {
+        if (bindingResult.hasErrors()) {
             return "/doctor/medicine";
         }
 
@@ -79,8 +84,8 @@ public class DoctorController {
     }
 //  -------------------- End Medicine --------------------
 
-//  -------------------- Schedule --------------------
-    @GetMapping("/schedule")
+    //  -------------------- Schedule --------------------
+        @GetMapping("/schedule")
     public ModelAndView getSchedule(ModelAndView modelAndView) {
         List<ScheduleViewModel> model =  scheduleService.getAll()
                 .stream()
@@ -91,15 +96,19 @@ public class DoctorController {
         return modelAndView;
     }
 
+//    @GetMapping("/schedule")
+//    public String getSchedule() {
+//        return "doctor/schedule.html";
+//    }
 
     @ModelAttribute("addSchedule")
-    public AddScheduleControllerModel addSchedule(){
+    public AddScheduleControllerModel addSchedule() {
         return new AddScheduleControllerModel();
     }
 
     @PostMapping("/schedule")
-    public String addSchedule(@ModelAttribute("addSchedule")AddScheduleControllerModel model, BindingResult bindingResult, HttpSession session){
-        if (bindingResult.hasErrors()){
+    public String addSchedule(@ModelAttribute("addSchedule") AddScheduleControllerModel model, BindingResult bindingResult, HttpSession session) {
+        if (bindingResult.hasErrors()) {
             return "/doctor/schedule";
         }
         session.setAttribute("animalName", model.getAnimal());
@@ -110,7 +119,7 @@ public class DoctorController {
     }
 //  -------------------- End Schedule --------------------
 
-//  -------------------- Treatment --------------------
+    //  -------------------- Treatment --------------------
     @GetMapping("/add-treatment/{animalName}")
     public String getSchedule(@PathVariable("animalName") String animalName, HttpSession session) {
         session.setAttribute("animalName", animalName);
@@ -118,13 +127,13 @@ public class DoctorController {
     }
 
     @ModelAttribute("treatmentAdd")
-    public AddTreatmentControllerModel treatmentAdd(){
+    public AddTreatmentControllerModel treatmentAdd() {
         return new AddTreatmentControllerModel();
     }
 
     @PostMapping("/add-treatment")
     public String addTreatment(@Valid @ModelAttribute AddTreatmentControllerModel addTreatment, BindingResult bindingResult, HttpSession session) throws IllegalAccessException {
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "/doctor/add-treatment";
         }
         String animalName = session.getAttribute("animalName").toString();

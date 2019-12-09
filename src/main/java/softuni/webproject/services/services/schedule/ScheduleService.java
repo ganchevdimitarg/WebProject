@@ -14,4 +14,6 @@ public interface ScheduleService {
     @Transactional
     @Modifying
     void deleteScheduleByDateReview(String date);
+
+    ScheduleServiceModel findByData(String data);
 }

@@ -23,6 +23,7 @@ public class AnimalServiceImpl implements AnimalService {
     private final static String INCORRECTLY_ENTERED_DATA = "Incorrectly entered data! Please try again! OR Name is not available!";
     private final static String NOT_FOUNT_ANIMAL = "No such animal";
     private final static String NOT_FOUNT_USER = "No such user";
+    private final static String NOT_FOUNT_MEDICINE = "No such medicine";
 
     private final UserRepository userRepository;
     private final AnimalRepository animalRepository;
@@ -37,11 +38,8 @@ public class AnimalServiceImpl implements AnimalService {
         }
         Animal animal = modelMapper.map(model, Animal.class);
 
-        try {
-            animal.setUser(userRepository.findByUsername(username));
-        } catch (Exception e){
-            throw  new UserNotFoundException(NOT_FOUNT_USER);
-        }
+        animal.setUser(userRepository.findByUsername(username));
+
         animalRepository.saveAndFlush(animal);
     }
 
@@ -75,7 +73,7 @@ public class AnimalServiceImpl implements AnimalService {
         try {
             medicine = medicineRepository.findByName(medicineName);
         } catch (Exception e){
-           throw new IllegalAccessException("No such medicine");
+           throw new IllegalAccessException(NOT_FOUNT_MEDICINE);
         }
         animal.getMedicines().add(medicine);
         animal.setDisease(disease);

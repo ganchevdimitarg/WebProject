@@ -14,5 +14,4 @@ public class AnimalViewModel {
     private double age;
     private Doctor doctor;
     private String disease;
-    private String medicine;
 }

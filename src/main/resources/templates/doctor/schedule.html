@@ -5,8 +5,6 @@
 <th:block th:include="~{fragments/head}"/>
 <body>
 <th:block th:include="~{fragments/doctor-header}"/>
-<div class="text-center mb-3">
-</div>
 <main>
     <div class="container table-bordered">
         <div class="row">
@@ -53,6 +51,7 @@
         <th:block th:unless="${schedules == null}">
             <th:block th:each="schedule : ${schedules}">
                 <div class="row">
+<!--                <div class="schedule-table">-->
                     <div class="col-md-2">
                         [[${schedule.dateReview}]]
                     </div>
@@ -69,23 +68,25 @@
                     </div>
                     <div class="col-md-2">
                         <form th:method="post" th:action="@{'/doctor/schedule/delete/' + ${schedule.dateReview}}">
-                        <input type="submit" value="Complete" class="btn btn-danger"/>
+                            <input type="submit" value="Complete" class="btn btn-danger"/>
                         </form>
                     </div>
+<!--                </div>-->
                 </div>
             </th:block>
         </th:block>
     </div>
-    <!--    <div id="schedule-table"></div>-->
-    <!--    </div>-->
+
 </main>
+<div class="text-center mb-3">
+</div>
 
 <th:block th:include="~{fragments/footer}"/>
 <script
         src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-        crossorigin="anonymous"></script>
-<script src="/js/schedule-table.js"></script>
+crossorigin="anonymous"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src="/js/schedule-table.js"></script>
 </body>
 </html>

@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScheduleResponseModel {
-    private String dateReview;
-    private String doctor;
-    private String animal;
+public class MedicineResponseModel {
+    private String name;
+    private String description;
+    private String imageUrl;
 }
