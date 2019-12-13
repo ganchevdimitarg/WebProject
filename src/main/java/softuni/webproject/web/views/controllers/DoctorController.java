@@ -17,16 +17,12 @@ import softuni.webproject.services.services.medicine.MedicineService;
 import softuni.webproject.services.services.schedule.ScheduleService;
 import softuni.webproject.web.views.models.doctor.DoctorViewModel;
 import softuni.webproject.web.views.models.medicine.AddMedicineControlModel;
-import softuni.webproject.web.views.models.medicine.MedicineViewModel;
 import softuni.webproject.web.views.models.schedule.AddScheduleControllerModel;
 import softuni.webproject.web.views.models.schedule.AddTreatmentControllerModel;
-import softuni.webproject.web.views.models.schedule.ScheduleViewModel;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/doctor")
@@ -50,20 +46,9 @@ public class DoctorController {
 
     //  -------------------- Medicine --------------------
     @GetMapping("/medicine")
-    public ModelAndView getMedicine(ModelAndView modelAndView) {
-        List<MedicineViewModel> model = medicineService.getAll()
-                .stream()
-                .map(m -> modelMapper.map(m, MedicineViewModel.class))
-                .collect(Collectors.toList());
-        modelAndView.addObject("medicines", model);
-        modelAndView.setViewName("doctor/medicine");
-        return modelAndView;
+    public String getMedicine() {
+        return "doctor/medicine.html";
     }
-
-//    @GetMapping("/medicine")
-//    public String getMedicine() {
-//        return "doctor/medicine.html";
-//    }
 
     @ModelAttribute("addNewMedicine")
     public AddMedicineControlModel addNewMedicine() {
@@ -85,21 +70,10 @@ public class DoctorController {
 //  -------------------- End Medicine --------------------
 
     //  -------------------- Schedule --------------------
-        @GetMapping("/schedule")
-    public ModelAndView getSchedule(ModelAndView modelAndView) {
-        List<ScheduleViewModel> model =  scheduleService.getAll()
-                .stream()
-                .map(s -> modelMapper.map(s, ScheduleViewModel.class))
-                .collect(Collectors.toList());
-        modelAndView.addObject("schedules", model);
-        modelAndView.setViewName("doctor/schedule");
-        return modelAndView;
+    @GetMapping("/schedule")
+    public String getSchedule() {
+        return "doctor/schedule.html";
     }
-
-//    @GetMapping("/schedule")
-//    public String getSchedule() {
-//        return "doctor/schedule.html";
-//    }
 
     @ModelAttribute("addSchedule")
     public AddScheduleControllerModel addSchedule() {

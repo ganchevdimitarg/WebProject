@@ -40,25 +40,18 @@
                 </div>
             </form>
         </div>
-        <th:block th:unless="${medicines == null}">
-            <th:block th:each="medicine : ${medicines}">
-<!--                <div class="medicines"></div>-->
-                <div class="row">
-                    <div class="col-md-6">
-                        <img th:src="${medicine.imageUrl}" alt="doctor-image">
-                    </div>
-                    <div class="col-md-6">
-                        <h4>Name: [[${medicine.name}]]</h4>
-                        <h4>Description: [[${medicine.description}]]</h4>
-                    </div>
-                </div>
+        <div id="medicines" class="container">
+            <th:block th:unless="${medicines == null}">
+                <th:block th:each="medicine : ${medicines}">
+                </th:block>
             </th:block>
-        </th:block>
+        </div>
     </div>
 </main>
 
 <th:block th:include="~{fragments/footer}"/>
-<<script
+<
+<script
         src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous"></script>

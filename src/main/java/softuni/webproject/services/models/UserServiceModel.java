@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,5 +16,6 @@ public class UserServiceModel extends BaseServiceModel {
     private String email;
     private String address;
     private String phoneNumber;
+    private List<AnimalServiceModel> animals;
     private String imageUrl;
 }

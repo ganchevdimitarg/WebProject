@@ -22,7 +22,7 @@ const toString = ({dateReview, doctor, animal}) => {
     </form>
 </div>
 `
-    return `${columns}`
+    return `<div class="row">${columns}</div>`
 };
 
 fetch(URLS.items)
@@ -35,11 +35,10 @@ fetch(URLS.items)
         });
         console.log(result);
 
-        document.getElementsByClassName('schedule-table').innerHTML = result;
-        // $('.schedule-table').html(result);
+        $('#camp').append(result);
     });
 
-$('.schedule-table').on('submit', '.delete-schedule', function (ev) {
+$('#camp').on('submit', '.delete-schedule', function (ev) {
     const url = $(this).attr('action');
 
     fetch(url, { method: 'post' })

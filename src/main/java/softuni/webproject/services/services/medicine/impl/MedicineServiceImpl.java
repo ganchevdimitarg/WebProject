@@ -23,7 +23,7 @@ public class MedicineServiceImpl implements MedicineService {
 
     @Override
     public List<MedicineServiceModel> getAll() {
-        return medicineRepository.getAll()
+        return medicineRepository.findAll()
                 .stream()
                 .map(m -> modelMapper.map(m, MedicineServiceModel.class))
                 .collect(Collectors.toList());

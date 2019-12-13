@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import softuni.webproject.data.models.User;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, String> {
     boolean existsUserByUsername(String username);
@@ -23,4 +24,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Transactional
     @Modifying
     void deleteByUsername(String username);
+
+    @Query("select u from User u")
+    List<User> getAll();
 }

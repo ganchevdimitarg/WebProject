@@ -10,7 +10,6 @@ import softuni.webproject.data.repositories.IdentificationKeyRepository;
 import softuni.webproject.services.models.DoctorServiceModel;
 import softuni.webproject.services.services.auth.HashingService;
 import softuni.webproject.services.services.doctor.DoctorService;
-import softuni.webproject.services.services.doctor.IdentificationKeyService;
 
 import java.util.ArrayList;
 
@@ -18,22 +17,20 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class DoctorServiceImpl implements DoctorService {
     private final DoctorRepository doctorRepository;
-    private final IdentificationKeyService keyService;
     private final IdentificationKeyRepository keyRepository;
     private final HashingService hashingService;
     private final ModelMapper modelMapper;
 
     @Override
-    public void createDoctor(DoctorServiceModel model){
-        IdentificationKey key =keyRepository.findByLogKey(model.getLogInKey());
+    public void save(DoctorServiceModel model){
+        IdentificationKey key = keyRepository.findByLogKey(model.getLogInKey());
         if (key != null) {
             Doctor doctor = modelMapper.map(model, Doctor.class);
             doctor.setPassword(hashingService.hash(doctor.getPassword()));
-            doctor.setLogInKey(key);
+            doctor.setLogInKey(modelMapper.map(key, IdentificationKey.class));
             doctor.setAnimals(new ArrayList<>());
             doctor.setSchedules(new ArrayList<>());
-            key.setFree(false);
-            keyRepository.saveAndFlush(key);
+            keyRepository.update(false, model.getLogInKey());
             doctorRepository.saveAndFlush(doctor);
         }
     }

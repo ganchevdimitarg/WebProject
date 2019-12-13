@@ -49,9 +49,7 @@ public class UserController {
     @PostMapping("/user-home")
     public ModelAndView update(@Valid @ModelAttribute("updateUserInfo") UserUpdateControllerModel user, ModelAndView modelAndView, HttpSession session){
         UserServiceModel model = modelMapper.map(user, UserServiceModel.class);
-        userService.update(model
-
-        );
+        userService.update(model);
           return this.getUserHome(modelAndView, session);
     }
 

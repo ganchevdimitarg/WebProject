@@ -3,6 +3,8 @@ package softuni.webproject.services.services.user;
 import softuni.webproject.services.models.CurrentUser;
 import softuni.webproject.services.models.UserServiceModel;
 
+import java.util.List;
+
 public interface UserService {
     void save(UserServiceModel model);
 
@@ -12,7 +14,11 @@ public interface UserService {
 
     void deletePet(String name, CurrentUser currentUser);
 
+    boolean existsUserByUsername(String username);
+
    UserServiceModel findByUsernameAndPassword(String username, String password);
 
    UserServiceModel findByUsername(String username);
+
+    List<UserServiceModel> getAll();
 }

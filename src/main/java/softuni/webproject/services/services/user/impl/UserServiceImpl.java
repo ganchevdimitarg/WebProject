@@ -1,4 +1,4 @@
-package softuni.webproject.services.services.user;
+package softuni.webproject.services.services.user.impl;
 
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -10,18 +10,28 @@ import softuni.webproject.data.repositories.UserRepository;
 import softuni.webproject.errors.UserNotFoundException;
 import softuni.webproject.services.models.CurrentUser;
 import softuni.webproject.services.models.UserServiceModel;
+import softuni.webproject.services.services.user.UserService;
+import softuni.webproject.services.services.user.UserServiceValidation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
+    private final static String USER_NOT_FOUND = "Not such User";
+    private final static String TRY_AGAIN = "Try again";
+
     private final UserRepository userRepository;
     private final AnimalRepository animalRepository;
+    private final UserServiceValidation validation;
     private final ModelMapper modelMapper;
 
     @Override
     public void save(UserServiceModel model) {
+        if (!validation.isValid(model)) {
+            throw new IllegalArgumentException(TRY_AGAIN);
+        }
         userRepository.saveAndFlush(modelMapper.map(model, User.class));
     }
 
@@ -39,7 +49,7 @@ public class UserServiceImpl implements UserService {
         try {
             userRepository.update(model.getEmail(), model.getAddress(), model.getPhoneNumber());
         } catch (Exception e) {
-            throw new IllegalArgumentException("Try again");
+            throw new IllegalArgumentException(TRY_AGAIN);
         }
     }
 
@@ -52,6 +62,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean existsUserByUsername(String username) {
+        return userRepository.existsUserByUsername(username);
+    }
+
+    @Override
     public UserServiceModel findByUsernameAndPassword(String username, String password) {
         return modelMapper.map(userRepository.findByUsernameAndPassword(username, password), UserServiceModel.class);
     }
@@ -61,11 +76,19 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(userRepository.findByUsername(username), UserServiceModel.class);
     }
 
+    @Override
+    public List<UserServiceModel> getAll() {
+        return userRepository.getAll()
+                .stream()
+                .map(u -> modelMapper.map(u, UserServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
     private User getUser(String username) {
         try {
             return userRepository.findByUsername(username);
         } catch (Exception e) {
-            throw new UserNotFoundException("Not such User");
+            throw new UserNotFoundException(USER_NOT_FOUND);
         }
     }
 

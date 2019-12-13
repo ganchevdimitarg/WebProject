@@ -12,4 +12,6 @@ public interface AnimalService {
     List<AnimalServiceModel> getCurrentUserAnimal(String name);
 
     void addMedicineDisease(String animalName, String medicineName, String disease) throws IllegalAccessException;
+
+    List<AnimalServiceModel> getAll();
 }

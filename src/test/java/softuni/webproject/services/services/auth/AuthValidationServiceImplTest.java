@@ -5,20 +5,21 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import softuni.webproject.data.models.Doctor;
-import softuni.webproject.data.repositories.DoctorRepository;
-import softuni.webproject.data.repositories.UserRepository;
+import softuni.webproject.services.base.TestBase;
 import softuni.webproject.services.models.BaseServiceModel;
 import softuni.webproject.services.services.auth.impl.AuthValidationServiceImpl;
-import softuni.webproject.services.base.TestBase;
+import softuni.webproject.services.services.doctor.DoctorService;
+import softuni.webproject.services.services.user.UserService;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AuthValidationServiceImplTest extends TestBase {
 
     @MockBean
-    DoctorRepository doctorRepository;
+    DoctorService doctorService;
     @MockBean
-    UserRepository userRepository;
+    UserService userService;
 
     @Autowired
     AuthValidationServiceImpl service;
@@ -30,7 +31,7 @@ class AuthValidationServiceImplTest extends TestBase {
         baseServiceModel.setConfirmPassword("2");
         baseServiceModel.setUsername("Iva");
 
-        assertThrows(IllegalAccessException.class, () -> service.isValid(baseServiceModel));
+        assertThrows(IllegalArgumentException.class, () -> service.isValid(baseServiceModel));
     }
 
     @Test
@@ -42,8 +43,22 @@ class AuthValidationServiceImplTest extends TestBase {
 
         Doctor doctor = new Doctor();
         doctor.setName("Ivan");
-        Mockito.when(doctorRepository.existsDoctorByUsername("Ivan")).thenReturn(true);
+        Mockito.when(doctorService.existsDoctorByUsername("Ivan")).thenReturn(true);
 
-        assertThrows(IllegalAccessException.class, () -> service.isValid(baseServiceModel));
+        assertThrows(IllegalArgumentException.class, () -> service.isValid(baseServiceModel));
+    }
+
+    @Test
+    void isValid_whenPasswordsIsSameAndUsernameIsFree_shouldBeTrue() {
+        BaseServiceModel baseServiceModel = new BaseServiceModel();
+        baseServiceModel.setPassword("1");
+        baseServiceModel.setConfirmPassword("1");
+        baseServiceModel.setUsername("Ivan");
+
+        Doctor doctor = new Doctor();
+        doctor.setName("Ivan");
+        Mockito.when(doctorService.existsDoctorByUsername("Ivan")).thenReturn(false);
+        Mockito.when(userService.existsUserByUsername("Ivan")).thenReturn(false);
+        assertTrue(service.isValid(baseServiceModel));
     }
 }

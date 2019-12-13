@@ -19,9 +19,11 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class ScheduleServiceImpl implements ScheduleService {
+    private final static String TRY_AGAIN = "Try again";
+
+    private final ScheduleRepository scheduleRepository;
     private final DoctorRepository doctorRepository;
     private final AnimalRepository animalRepository;
-    private final ScheduleRepository scheduleRepository;
     private final ScheduleServiceValidation validation;
     private final ModelMapper modelMapper;
 
@@ -29,7 +31,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     public void save(ScheduleServiceModel model) {
         Doctor doctor = doctorRepository.findByName(model.getDoctor());
         Animal animal = animalRepository.findByName(model.getAnimal());
-        validation.isValid(model.getDateReview(), doctor, animal);
+        if(!validation.isValid(model.getDateReview(), doctor, animal)){
+            throw new IllegalArgumentException(TRY_AGAIN);
+        }
         animal.setDoctor(doctor);
 
         Schedule schedule = new Schedule();

@@ -2,6 +2,7 @@ package softuni.webproject.data.models;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.util.List;
 @Table(name = "animals")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Animal extends BaseEntity{
     @Column(nullable = false)
     @NotEmpty
@@ -36,7 +38,7 @@ public class Animal extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "animals_medicines",
             joinColumns = @JoinColumn(name = "animal_id"),

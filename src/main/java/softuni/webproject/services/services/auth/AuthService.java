@@ -7,9 +7,9 @@ import softuni.webproject.services.models.CurrentUser;
 import softuni.webproject.services.models.UserServiceModel;
 
 public interface AuthService {
-    void registerDoctor(DoctorServiceModel model) throws IllegalAccessException;
+    void registerDoctor(DoctorServiceModel model) throws IllegalArgumentException;
 
-    void registerUser(UserServiceModel model) throws IllegalAccessException;
+    void registerUser(UserServiceModel model) throws IllegalArgumentException;
 
     CurrentUser logIn(BaseServiceModel model) throws LogInHandleException;
 

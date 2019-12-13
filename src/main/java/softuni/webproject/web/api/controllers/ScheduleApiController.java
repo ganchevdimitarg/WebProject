@@ -30,8 +30,4 @@ public class ScheduleApiController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-
-
-
 }

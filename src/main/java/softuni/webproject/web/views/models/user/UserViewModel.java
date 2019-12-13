@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UserViewModel {
-    private String id;
     private String name;
     private String email;
     private String address;

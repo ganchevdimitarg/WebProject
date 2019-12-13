@@ -1,5 +1,6 @@
 package softuni.webproject.data.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Medicine extends BaseEntity {
     @Column(nullable = false, unique = true)
     @NotNull
@@ -25,7 +27,7 @@ public class Medicine extends BaseEntity {
     @NotEmpty
     private String description;
 
-    @ManyToMany(mappedBy = "medicines")
+    @ManyToMany(mappedBy = "medicines", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Animal> animals;
 
     @Column(name = "image_url")

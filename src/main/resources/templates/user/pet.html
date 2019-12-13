@@ -24,39 +24,60 @@
                 <p>Disease</p>
             </div>
             <div class="col-md-2">
+                Medicine
+            </div>
+            <div class="col-md-2">
                 <p>Doctor</p>
             </div>
         </div>
-        <th:block th:each="animal : ${animals}">
-            <div class="row">
-                <div class="col-md-2">
-                    [[${animal.breed}]]
-                </div>
-                <div class="col-md-2">
-                    [[${animal.name}]]
-                </div>
-                <div class="col-md-2">
-                    [[${animal.age}]]
-                </div>
-                <div class="col-md-2">
-                    [[${animal.disease}]]
-                </div>
-                <th:block th:if="${animal.doctor == null}">
+        <div id="animal">
+            <th:block th:each="animal : ${animals}">
+                <div class="row">
                     <div class="col-md-2">
+                        [[${animal.breed}]]
                     </div>
-                </th:block>
-                <th:block th:unless="${animal.doctor == null}">
                     <div class="col-md-2">
-                        [[${animal.doctor.getName()}]]
+                        [[${animal.name}]]
                     </div>
-                </th:block>
-                <div class="col-md-2">
-                    <form th:action="@{'/user/pet/delete/' + ${animal.getName()}}" method="post">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                    <div class="col-md-2">
+                        [[${animal.age}]]
+                    </div>
+                    <div class="col-md-2">
+                        [[${animal.disease}]]
+                    </div>
+                    <th:block th:if="${animal.medicines.size() == 0}">
+                        <div class="col-md-2">
+                        </div>
+                    </th:block>
+                    <div class="col-md-2">
+                        <th:block th:unless="${animal.medicines.size() == 0}">
+                            <th:block th:each="medicine : ${animal.medicines}">
+                                <div class="container">
+                                    <div class="row">
+                                        <div>Name: [[${medicine.name}]]</div>
+                                        <div>Description: [[${medicine.description}]]</div>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </th:block>
+                    </div>
+                    <th:block th:if="${animal.doctor == null}">
+                        <div class="col-md-2">
+                        </div>
+                    </th:block>
+                    <th:block th:unless="${animal.doctor == null}">
+                        <div class="col-md-2">
+                            [[${animal.doctor.getName()}]]
+                        </div>
+                    </th:block>
+                    <div class="col-md-2">
+                        <form th:action="@{'/user/pet/delete/' + ${animal.name}}" method="post">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </th:block>
+            </th:block>
+        </div>
     </div>
     <div class="container">
         <div class="row">
@@ -66,5 +87,10 @@
 </main>
 
 <th:block th:include="~{fragments/footer}"/>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+<script src="/js/animal-table.js"></script>
 </body>
 </html>

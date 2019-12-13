@@ -18,11 +18,6 @@ public class IdentificationKeyServiceImpl implements IdentificationKeyService {
     private final ModelMapper modelMapper;
 
     @Override
-    public void save(IdentificationKeyServiceModel key) {
-        keyRepository.saveAndFlush(modelMapper.map(key, IdentificationKey.class));
-    }
-
-    @Override
     public IdentificationKeyServiceModel findByKeyName(String keyName) {
         return modelMapper.map(keyRepository.findByLogKey(keyName), IdentificationKeyServiceModel.class);
     }
@@ -37,6 +32,11 @@ public class IdentificationKeyServiceImpl implements IdentificationKeyService {
                 keyRepository.save(key);
             }
         }
+    }
+
+    @Override
+    public void update(boolean state, String key) {
+        keyRepository.update(state, key);
     }
 
 

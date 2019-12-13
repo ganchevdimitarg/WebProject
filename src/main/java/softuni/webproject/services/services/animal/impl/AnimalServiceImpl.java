@@ -56,7 +56,7 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     public List<AnimalServiceModel> getCurrentUserAnimal(String name){
         try {
-            return userRepository.findByUsername(name)
+             return userRepository.findByUsername(name)
                     .getAnimals()
                     .stream()
                     .map(a -> modelMapper.map(a, AnimalServiceModel.class))
@@ -73,11 +73,19 @@ public class AnimalServiceImpl implements AnimalService {
         try {
             medicine = medicineRepository.findByName(medicineName);
         } catch (Exception e){
-           throw new IllegalAccessException(NOT_FOUNT_MEDICINE);
+           throw new NullPointerException(NOT_FOUNT_MEDICINE);
         }
         animal.getMedicines().add(medicine);
         animal.setDisease(disease);
         animalRepository.saveAndFlush(animal);
+    }
+
+    @Override
+    public List<AnimalServiceModel> getAll() {
+        return animalRepository.findAll()
+                .stream()
+                .map(a -> modelMapper.map(a, AnimalServiceModel.class))
+                .collect(Collectors.toList());
     }
 
 }

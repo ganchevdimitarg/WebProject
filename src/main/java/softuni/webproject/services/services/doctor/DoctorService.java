@@ -3,7 +3,7 @@ package softuni.webproject.services.services.doctor;
 import softuni.webproject.services.models.DoctorServiceModel;
 
 public interface DoctorService {
-    void createDoctor(DoctorServiceModel doctor);
+    void save(DoctorServiceModel doctor);
 
     DoctorServiceModel findByUsername(String username);
 
